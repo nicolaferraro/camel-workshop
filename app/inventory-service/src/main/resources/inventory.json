@@ -1,0 +1,20 @@
+{
+  "1": {
+    "id": "1",
+    "name": "Guitar",
+    "image": "https://images-na.ssl-images-amazon.com/images/I/710a68Y121L._SL1500_.jpg",
+    "quantity": 10
+  },
+  "2": {
+    "id": "2",
+    "name": "Violin",
+    "image": "https://www.sharmusic.com/productimages/image.axd/i.sv200/w.2000/h.2000/snow+model+sv200+violin_.jpg",
+    "quantity": 10
+  },
+  "99": {
+    "id": "99",
+    "name": "Mr. Camel",
+    "image": "https://pbs.twimg.com/media/Dc8vpJbV0AExtYF.jpg",
+    "quantity": 1000
+  }
+}
