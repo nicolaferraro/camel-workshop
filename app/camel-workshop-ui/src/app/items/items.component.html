@@ -1,13 +1,25 @@
-<p>
-  items works!
-</p>
+<div class="row" xmlns="http://www.w3.org/1999/html">
+  <div *ngFor="let item of items" class="col-md-3">
+    <div class="card mb-3 box-shadow">
+      <div style="height: 125px; width: 100%; display: block; overflow: hidden">
+        <img class="card-img-top" alt="Item {{item.id}}" style="width: 60%; margin-left: 20%" src="{{item.image}}" data-holder-rendered="true">
+      </div>
+      <div class="card-body">
+        <h5 class="card-title">{{item.name}}</h5>
+        <p class="card-text">{{item.quantity}} items in stock</p>
 
-<div>
-  <div *ngFor="let item of items">
-    <div class="item">
-      <img src="{{item.image}}" />
-      <strong>{{item.name}}</strong>
+        <div class="d-flex justify-content-between align-items-center">
+          <div class="btn-group">
+            <button type="button" class="btn btn-sm btn-outline-secondary">-</button>
+            <button type="button" class="btn btn-sm btn-outline-secondary" style="width: 50px">0</button>
+            <button type="button" class="btn btn-sm btn-outline-secondary">+</button>
+          </div>
+          <small *ngIf="item.recommended" class="text-muted">
+            <fa *ngFor="let number of [1,2,3,4,5]" style="color: #FF0000" name="star" animation="spin"></fa>
+          </small>
+        </div>
+      </div>
     </div>
-    <div *ngIf="item.recommended">*****************</div>
   </div>
+
 </div>

@@ -20,7 +20,13 @@
     "@angular/platform-browser": "^6.0.2",
     "@angular/platform-browser-dynamic": "^6.0.2",
     "@angular/router": "^6.0.2",
+    "@ng-bootstrap/ng-bootstrap": "^2.0.0",
+    "angular-font-awesome": "^3.1.2",
+    "bootstrap": "^4.1.1",
     "core-js": "^2.5.4",
+    "font-awesome": "^4.7.0",
+    "jquery": "^3.3.1",
+    "popper.js": "^1.14.3",
     "rxjs": "^6.0.0",
     "zone.js": "^0.8.26"
   },
