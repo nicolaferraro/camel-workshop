@@ -2,13 +2,13 @@ package org.apache.camel.workshop.gatewayservice;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.builder.RouteBuilder;
-import org.apache.camel.http.common.HttpMethods;
 import org.apache.camel.model.dataformat.JsonLibrary;
 import org.apache.camel.model.rest.RestParamType;
-import org.apache.camel.util.toolbox.AggregationStrategies;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 @SpringBootApplication
 public class GatewayServiceApplication {
@@ -27,7 +27,15 @@ public class GatewayServiceApplication {
 
 			rest().get("/items")
 					.route()
-					.to("undertow:http://{{inventory.host}}:{{inventory.port}}/api/items?bridgeEndpoint=true");
+					.to("undertow:http://{{inventory.host}}:{{inventory.port}}/api/items?bridgeEndpoint=true")
+                    .unmarshal().json(JsonLibrary.Jackson, Item.Items.class)
+                    .enrichWith("direct:recommendation").body(Item.Items.class, List.class, GatewayServiceApplication::recommend);
+
+
+			from("direct:recommendation")
+                    .to("undertow:http://{{recommendation.host}}:{{recommendation.port}}/api/recommendations?bridgeEndpoint=true")
+                    .unmarshal().json(JsonLibrary.Jackson, List.class);
+
 
 
 			rest().post("/purchases/{ref}/checkout")
@@ -65,5 +73,18 @@ public class GatewayServiceApplication {
 
 		}
 	}
+
+
+	private static Item.Items recommend(Item.Items items, List<String> recomm) {
+	    if (recomm != null && items != null) {
+            for (Item item : items.getItems()) {
+                if (recomm.contains(item.getId())) {
+                    item.setRecommended(true);
+                }
+            }
+        }
+        return items;
+    }
+
 
 }

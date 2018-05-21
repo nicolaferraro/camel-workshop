@@ -1,4 +1,4 @@
-package org.apache.camel.workshop.inventoryservice;
+package org.apache.camel.workshop.gatewayservice;
 
 import java.util.Collection;
 

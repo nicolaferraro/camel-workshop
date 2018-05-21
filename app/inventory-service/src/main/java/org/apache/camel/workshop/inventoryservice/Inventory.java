@@ -29,8 +29,8 @@ public class Inventory {
         canceledPurchases = new HashSet<>();
     }
 
-    public Collection<Item> getItems() {
-        return items.values();
+    public Item.Items getItems() {
+        return new Item.Items(items.values());
     }
 
     public void buy(String purchaseReferenceCode, String itemId, int qty) {
