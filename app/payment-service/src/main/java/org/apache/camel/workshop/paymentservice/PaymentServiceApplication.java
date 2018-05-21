@@ -12,7 +12,7 @@ import java.util.Map;
 @SpringBootApplication
 public class PaymentServiceApplication {
 
-	private static Map<String, Integer> accounts = new HashMap<>();
+
 
 	public static void main(String[] args) {
 		SpringApplication.run(PaymentServiceApplication.class, args);
@@ -23,31 +23,39 @@ public class PaymentServiceApplication {
 		@Override
 		public void configure() {
 
-			rest().post("/payments/{userId}")
+			rest().post("/payments/{ref}")
+					.param()
+						.name("ref")
+						.type(RestParamType.path)
+						.description("Reference code")
+					.endParam()
+					.param()
+						.name("user")
+						.type(RestParamType.query)
+						.description("Owner of the account")
+					.endParam()
 					.param()
 						.name("amount")
 						.type(RestParamType.query)
 						.description("Amount to pay")
 					.endParam()
 					.route()
-					.validate(header("amount").convertTo(Integer.class).isGreaterThan(0))
-					.bean(PaymentServiceApplication.class, "pay(${header.userId}, ${header.amount})");
+					.validate(header("amount").convertTo(Integer.class).isGreaterThanOrEqualTo(0))
+					.bean("bank", "pay(${header.ref}, ${header.userId}, ${header.amount})");
+
+
+			rest().delete("/payments/{ref}")
+				    .param()
+    					.name("ref")
+    					.type(RestParamType.path)
+    					.description("Reference code")
+    				.endParam()
+    				.route()
+                    .bean("bank", "cancel(${header.ref})");
+
 		}
 	}
 
-	public static synchronized void pay(String userId, int amount) {
 
-		Integer current = accounts.get(userId);
-		if (current == null) {
-			current = 100; // BASE value
-		}
-
-		if (current - amount < 0) {
-			throw new IllegalStateException("Insufficient credit!");
-		}
-
-		int newCredit = current - amount;
-		accounts.put(userId, newCredit);
-	}
 
 }

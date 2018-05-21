@@ -12,6 +12,7 @@
     <modules>
         <module>inventory-service</module>
         <module>payment-service</module>
+        <module>gateway-service</module>
     </modules>
 
 

@@ -60,8 +60,8 @@ public class InventoryServiceApplication {
 						.type(RestParamType.path)
 					.endParam()
 					.param()
-						.name("quantity")
-						.description("Quantity to buy")
+						.name("amount")
+						.description("Amount to buy")
 						.type(RestParamType.query)
 						.required(false)
 					.endParam()
@@ -69,12 +69,12 @@ public class InventoryServiceApplication {
 						.code(200).message("Ok")
 					.endResponseMessage()
 					.route()
-						.validate(header("quantity").convertTo(Integer.class).isGreaterThan(0))
 						.choice()
-							.when(simple("${header.quantity} == null"))
-								.setHeader("quantity", constant(1))
+							.when(simple("${header.amount} == null"))
+								.setHeader("amount", constant(1))
 						.end()
-						.bean("inventory", "buy(${header.ref}, ${header.id}, ${header.quantity})");
+                        .validate(header("amount").convertTo(Integer.class).isGreaterThan(0))
+						.bean("inventory", "buy(${header.ref}, ${header.id}, ${header.amount})");
 
 
 			/*
@@ -89,6 +89,8 @@ public class InventoryServiceApplication {
 				.endParam()
 				.route()
 				.bean("inventory", "cancel(${header.ref})");
+
+
 
 		}
 	}
