@@ -3,6 +3,7 @@ package org.apache.camel.workshop.gatewayservice;
 import org.apache.camel.Exchange;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.model.dataformat.JsonLibrary;
+import org.apache.camel.model.rest.RestBindingMode;
 import org.apache.camel.model.rest.RestParamType;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -23,7 +24,7 @@ public class GatewayServiceApplication {
 		@Override
 		public void configure(){
 
-			restConfiguration().component("servlet");
+			restConfiguration().component("servlet").enableCORS(true).bindingMode(RestBindingMode.json);
 
 			rest().get("/items")
 					.route()
