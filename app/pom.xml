@@ -10,10 +10,10 @@
     <version>1.0-SNAPSHOT</version>
 
     <modules>
-        <module>inventory-service</module>
-        <module>payment-service</module>
-        <module>gateway-service</module>
-        <module>recommendation-service</module>
+        <module>inventory</module>
+        <module>credit</module>
+        <module>gateway</module>
+        <module>recommendation</module>
     </modules>
 
 

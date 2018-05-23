@@ -1,0 +1,50 @@
+
+<div class="row" style="margin-bottom: 20px">
+  <div class="col-md-12">
+    <h1>Shopping List</h1>
+  </div>
+</div>
+
+<div class="row">
+  <div *ngFor="let item of items" class="col-md-3">
+    <div class="card mb-3 box-shadow">
+      <div style="height: 125px; width: 100%; display: block; overflow: hidden">
+        <img class="card-img-top" alt="Item {{item.id}}" style="width: 60%; margin-left: 20%" src="{{item.image}}" data-holder-rendered="true">
+      </div>
+      <div class="card-body">
+        <h5 class="card-title">{{item.name}}</h5>
+        <p class="card-text">{{item.stockUnits}} items in stock</p>
+
+        <div class="d-flex justify-content-between align-items-center">
+          <div class="btn-group">
+            <button type="button" class="btn btn-sm btn-outline-secondary" (click)="less(item)">-</button>
+            <button type="button" class="btn btn-sm btn-outline-secondary" style="width: 50px">{{cart.get(item.id)}}</button>
+            <button type="button" class="btn btn-sm btn-outline-secondary" (click)="more(item)">+</button>
+          </div>
+          <small *ngIf="item.recommended" class="text-muted">
+            <fa *ngFor="let number of [1,2,3,4,5]" style="color: #FF0000" name="star" animation="spin"></fa>
+          </small>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="row" style="margin-bottom: 20px">
+  <div class="col-md-12">
+    <div class="pull-right">
+      <strong>{{total}} Items Selected</strong>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-10">
+    <button type="button" class="btn btn-lg btn-outline-secondary pull-right" (click)="reset()"><fa name="undo"></fa> Reset</button>
+
+  </div>
+  <div class="col-md-2">
+    <button type="button" class="btn btn-lg btn-primary pull-right"><fa name="shopping-cart"></fa> Checkout</button>
+  </div>
+</div>
