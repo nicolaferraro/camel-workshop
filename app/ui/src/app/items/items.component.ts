@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ItemService} from '../item.service';
 import {Item} from "../datatypes";
 import {forEach} from "@angular/router/src/utils/collection";
+import {DataService} from "../data.service";
 
 @Component({
   selector: 'app-items',
@@ -16,10 +17,13 @@ export class ItemsComponent implements OnInit {
 
   cart: Map<string, number>;
 
-  constructor(private itemsService: ItemService) { }
+  constructor(private itemsService: ItemService, private data: DataService) { }
 
   getItems(): void {
-    this.itemsService.getCatalog()
+
+    this.itemsService.getCatalog().subscribe(catalog => this.data.updateCatalog(catalog));
+
+    this.data.catalog
       .subscribe(catalog => {
 
         let arr = [];

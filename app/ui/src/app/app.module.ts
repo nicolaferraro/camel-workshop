@@ -8,13 +8,15 @@ import { AppNavbarComponent } from './app-navbar/app-navbar.component';
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import {AngularFontAwesomeModule} from "angular-font-awesome";
 import { PurchasesComponent } from './purchases/purchases.component';
+import { MapValuesPipe } from './map-values.pipe';
 
 @NgModule({
   declarations: [
     AppComponent,
     ItemsComponent,
     AppNavbarComponent,
-    PurchasesComponent
+    PurchasesComponent,
+    MapValuesPipe
   ],
   imports: [
     BrowserModule,

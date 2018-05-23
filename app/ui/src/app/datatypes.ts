@@ -16,3 +16,8 @@ export class Purchase {
   items: Map<string, number>;
   active: boolean;
 }
+
+export class Entry {
+  key: string;
+  value: object;
+}
