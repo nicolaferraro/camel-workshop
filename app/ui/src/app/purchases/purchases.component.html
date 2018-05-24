@@ -1,19 +1,12 @@
-<h1>Purchases</h1>
+<h1><fa name="truck"></fa> Purchases</h1>
 
-<div class="row">
-  <div class="col-md-12">
-    <div class="card" *ngFor="let purchase of purchases">
-      <div class="card-header">
-        Purchase #{{purchase.id}}
-      </div>
-      <div class="card-body">
-        <ul>
-          <li *ngFor="let itemEntry of purchase.items | mapValues">{{itemEntry.value}} x
-            <img src="{{catalog.items[itemEntry.key].image}}" style="width: 50px" class="img-thumbnail">
-          </li>
-        </ul>
-      </div>
-    </div>
+<div class="card purchase" *ngFor="let purchase of purchases">
+  <div class="card-header">
+    Purchase #{{purchase.id}}
+  </div>
+  <div class="card-body">
+    <span [ngClass]="{'inactive': !purchase.active}" *ngFor="let itemEntry of purchase.items | mapValues"> {{itemEntry.value}}x<img src="{{catalog.items[itemEntry.key].image}}" style="width: 50px" class="img-thumbnail">
+    </span> &nbsp;&nbsp;
   </div>
 </div>
 

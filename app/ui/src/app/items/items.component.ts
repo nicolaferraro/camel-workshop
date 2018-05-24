@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ItemService} from '../item.service';
 import {Item} from "../datatypes";
-import {forEach} from "@angular/router/src/utils/collection";
 import {DataService} from "../data.service";
 
 @Component({
@@ -16,6 +15,10 @@ export class ItemsComponent implements OnInit {
   total: number;
 
   cart: Map<string, number>;
+
+  message: string;
+
+  error: boolean;
 
   constructor(private itemsService: ItemService, private data: DataService) { }
 
@@ -61,10 +64,34 @@ export class ItemsComponent implements OnInit {
     this.cart.forEach((n,k) => this.cart.set(k, 0));
   }
 
+  checkout(): void {
+    this.itemsService.makeOrder(this.cart)
+      .subscribe(next => {
+        this.message = "Order sent correctly!";
+        this.error = false;
+        this.reset();
+        this.data.triggerModelChange()
+      }, error => {
+        this.message = "There were problems while sending the order!";
+        this.error = true;
+        this.data.triggerModelChange()
+      });
+
+  }
+
+  dismissAlert(): void {
+    this.message = null;
+    this.error = false;
+  }
+
   ngOnInit() {
     this.total = 0;
     this.cart = new Map<string, number>();
     this.getItems();
+
+    this.data.modelChanges.subscribe(change => {
+      this.getItems();
+    });
   }
 
 }

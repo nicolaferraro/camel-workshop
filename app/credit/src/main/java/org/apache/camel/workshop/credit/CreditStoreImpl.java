@@ -29,6 +29,8 @@ public class CreditStoreImpl implements CreditStore {
             throw new IllegalStateException("Insufficient credit!");
         }
 
+        payment.setActive(true);
+
         int newCredit = current - payment.getAmount();
         accounts.put(payment.getUser(), newCredit);
         payments.put(payment.getReference(), payment);
@@ -36,17 +38,18 @@ public class CreditStoreImpl implements CreditStore {
 
     @Override
     public synchronized void remove(String ref) {
-        if (payments.containsKey(ref) && payments.get(ref).getUser() != null) {
+        if (payments.containsKey(ref) && payments.get(ref).isActive()) {
             Payment payment = payments.get(ref);
             int current = accounts.get(payment.getUser());
             accounts.put(payment.getUser(), current - payment.getAmount());
-            // reset for subsequent cancellations
-            payment.setAmount(0);
+            // set inactive for subsequent cancellations
+            payment.setActive(false);
         } else {
             // prevents subsequent creation of the payment
             Payment dummy = new Payment();
             dummy.setReference(ref);
             dummy.setAmount(0);
+            dummy.setActive(false);
             payments.put(ref, dummy);
         }
     }

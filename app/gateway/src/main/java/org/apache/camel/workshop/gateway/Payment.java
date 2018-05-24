@@ -15,6 +15,8 @@ public class Payment {
     @Min(0)
     private Integer amount;
 
+    private boolean active = true;
+
     public Payment() {
     }
 
@@ -42,12 +44,21 @@ public class Payment {
         this.amount = amount;
     }
 
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
     @Override
     public String toString() {
         return "Payment{" +
                 "reference='" + reference + '\'' +
                 ", user='" + user + '\'' +
                 ", amount=" + amount +
+                ", active=" + active +
                 '}';
     }
 }

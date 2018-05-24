@@ -9,6 +9,7 @@ import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import {AngularFontAwesomeModule} from "angular-font-awesome";
 import { PurchasesComponent } from './purchases/purchases.component';
 import { MapValuesPipe } from './map-values.pipe';
+import { PaymentsComponent } from './payments/payments.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { MapValuesPipe } from './map-values.pipe';
     ItemsComponent,
     AppNavbarComponent,
     PurchasesComponent,
-    MapValuesPipe
+    MapValuesPipe,
+    PaymentsComponent
   ],
   imports: [
     BrowserModule,

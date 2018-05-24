@@ -1,0 +1,13 @@
+h1 {
+  margin-top: 20px;
+}
+
+.card.purchase {
+  height: 200px;
+  margin-bottom: 10px;
+}
+
+.inactive {
+  text-decoration: line-through;
+  color: red;
+}

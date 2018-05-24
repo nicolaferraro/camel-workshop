@@ -10,10 +10,17 @@ export class DataService {
   private catalogSource = new Subject<Catalog>();
   catalog = this.catalogSource.asObservable();
 
+  private modelChangesSource = new Subject<number>();
+  modelChanges = this.modelChangesSource.asObservable();
+
   constructor() { }
 
   updateCatalog(catalog: Catalog) {
     this.catalogSource.next(catalog);
+  }
+
+  triggerModelChange() {
+    this.modelChangesSource.next(1);
   }
 
 }

@@ -1,0 +1,11 @@
+<h1><fa name="money"></fa> Payments</h1>
+
+<div class="card payment" *ngFor="let payment of payments">
+  <div class="card-header">
+    Payment #{{payment.reference}}
+  </div>
+  <div class="card-body">
+    <span [ngClass]="{'inactive': !payment.active}">{{payment.amount | currency }}</span>
+  </div>
+</div>
+
