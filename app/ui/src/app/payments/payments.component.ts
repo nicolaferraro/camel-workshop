@@ -31,7 +31,9 @@ export class PaymentsComponent implements OnInit {
       this.payments = p.reverse();
       this.total = 0;
       for (let p of this.payments) {
-        this.total += p.amount;
+        if (p.active) {
+          this.total += p.amount;
+        }
       }
       this.loaded = true;
     }, error => {

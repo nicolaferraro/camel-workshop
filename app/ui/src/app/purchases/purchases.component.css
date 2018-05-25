@@ -16,3 +16,7 @@ h1 {
   color: #AAAAAA;
   font-size: smaller;
 }
+
+.canceled-bg {
+  background-color: #EEEEEE;
+}

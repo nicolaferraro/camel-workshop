@@ -1,4 +1,4 @@
-<h1><fa name="money"></fa> Payments <span class="total" *ngIf="total > 0">({{total | currency}})</span></h1>
+<h1><fa name="money"></fa> Payments <span   *ngIf="total > 0">({{total | currency}})</span></h1>
 
 <div *ngIf="loaded">
   <div *ngIf="payments.length > 0">
@@ -6,7 +6,7 @@
       <div class="card-header">
         Payment #{{payment.reference}}
       </div>
-      <div class="card-body">
+      <div class="card-body" [ngClass]="{'canceled-bg': !payment.active}">
         <span [ngClass]="{'inactive': !payment.active}">{{payment.amount | currency }}</span>
       </div>
     </div>

@@ -35,7 +35,9 @@ export class PurchasesComponent implements OnInit {
       this.total = 0;
       for (let p of this.purchases) {
         for (let i in p.items) {
-          this.total += p.items[i]
+          if (p.active) {
+            this.total += p.items[i]
+          }
         }
       }
       this.loaded = true;
