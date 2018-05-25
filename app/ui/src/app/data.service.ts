@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Catalog} from "./datatypes";
+import {Catalog, Message} from "./datatypes";
 import {Subject} from "rxjs/internal/Subject";
 
 @Injectable({
@@ -13,6 +13,9 @@ export class DataService {
   private modelChangesSource = new Subject<number>();
   modelChanges = this.modelChangesSource.asObservable();
 
+  private messagesSource = new Subject<Message>();
+  messages = this.messagesSource.asObservable();
+
   constructor() { }
 
   updateCatalog(catalog: Catalog) {
@@ -21,6 +24,10 @@ export class DataService {
 
   triggerModelChange() {
     this.modelChangesSource.next(1);
+  }
+
+  publishMessage(message: Message) {
+    this.messagesSource.next(message);
   }
 
 }

@@ -1,0 +1,11 @@
+<div *ngIf="message" class="row message">
+  <div class="col-md-12">
+    <div [ngClass]="{'alert-danger': message.error, 'alert-success': !message.error}" class="alert alert-dismissible fade show" role="alert">
+      <strong>{{message.title}}</strong> {{message.content}}.
+      <a *ngIf="message.refresh" href="javascript:void(0)" (click)="refresh()">Refresh data</a>
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="dismiss()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+  </div>
+</div>

@@ -11,3 +11,8 @@ h1 {
   text-decoration: line-through;
   color: red;
 }
+
+.total {
+  color: #AAAAAA;
+  font-size: smaller;
+}

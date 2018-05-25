@@ -17,3 +17,8 @@ h1 {
 .inactive {
   text-decoration: line-through;
 }
+
+.total {
+  color: #AAAAAA;
+  font-size: smaller;
+}

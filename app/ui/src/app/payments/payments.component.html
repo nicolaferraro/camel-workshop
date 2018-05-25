@@ -1,11 +1,21 @@
-<h1><fa name="money"></fa> Payments</h1>
+<h1><fa name="money"></fa> Payments <span class="total" *ngIf="total > 0">({{total | currency}})</span></h1>
 
-<div class="card payment" *ngFor="let payment of payments">
-  <div class="card-header">
-    Payment #{{payment.reference}}
+<div *ngIf="loaded">
+  <div *ngIf="payments.length > 0">
+    <div class="card payment" *ngFor="let payment of payments">
+      <div class="card-header">
+        Payment #{{payment.reference}}
+      </div>
+      <div class="card-body">
+        <span [ngClass]="{'inactive': !payment.active}">{{payment.amount | currency }}</span>
+      </div>
+    </div>
   </div>
-  <div class="card-body">
-    <span [ngClass]="{'inactive': !payment.active}">{{payment.amount | currency }}</span>
+  <div *ngIf="payments.length == 0">
+    <div class="alert-secondary alert fade show" role="alert">
+      No payments
+    </div>
   </div>
 </div>
 
+<app-loading *ngIf="!loaded"></app-loading>

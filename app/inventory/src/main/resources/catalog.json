@@ -2,57 +2,57 @@
   "items": {
     "i1": {
       "id": "i1",
-      "name": "Guitar",
-      "image": "https://images-na.ssl-images-amazon.com/images/I/710a68Y121L._SL1500_.jpg",
+      "name": "Itchy & Scratchy",
+      "image": "/assets/plush/grattachecca-fichetto.jpg",
       "price": 1,
       "stockUnits": 10
     },
     "i2": {
       "id": "i2",
-      "name": "Violin",
-      "image": "https://www.sharmusic.com/productimages/image.axd/i.sv200/w.2000/h.2000/snow+model+sv200+violin_.jpg",
+      "name": "The Jocker",
+      "image": "/assets/plush/jocker.jpg",
       "price": 1,
       "stockUnits": 10
     },
     "i99": {
       "id": "i99",
       "name": "Mr. Camel",
-      "image": "https://pbs.twimg.com/media/Dc8vpJbV0AExtYF.jpg",
+      "image": "/assets/plush/mr-camel.jpg",
       "price": 1,
-      "stockUnits": 1000
+      "stockUnits": 10
     },
     "i4": {
       "id": "i4",
-      "name": "Donkey",
-      "image": "http://www.emule-project.net/home/img/cuddleemule.png",
+      "name": "eDonkey",
+      "image": "/assets/plush/e-donkey.jpg",
       "price": 1,
       "stockUnits": 10
     },
     "i5": {
       "id": "i5",
-      "name": "Guitar",
-      "image": "https://images-na.ssl-images-amazon.com/images/I/710a68Y121L._SL1500_.jpg",
+      "name": "Lupin",
+      "image": "/assets/plush/lupin.jpg",
       "price": 1,
       "stockUnits": 10
     },
     "i6": {
       "id": "i6",
-      "name": "Violin",
-      "image": "https://www.sharmusic.com/productimages/image.axd/i.sv200/w.2000/h.2000/snow+model+sv200+violin_.jpg",
+      "name": "Dalì",
+      "image": "/assets/plush/dali.jpg",
       "price": 1,
       "stockUnits": 10
     },
     "i7": {
       "id": "i7",
-      "name": "Mr. Camel 2",
-      "image": "https://pbs.twimg.com/media/Dc8vpJbV0AExtYF.jpg",
+      "name": "Darth Vader",
+      "image": "/assets/plush/darth-vader.jpg",
       "price": 1,
       "stockUnits": 10
     },
     "i8": {
       "id": "i8",
-      "name": "Donkey",
-      "image": "http://www.emule-project.net/home/img/cuddleemule.png",
+      "name": "Secco",
+      "image": "/assets/plush/sorcio-secco.jpg",
       "price": 1,
       "stockUnits": 10
     }

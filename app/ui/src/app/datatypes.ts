@@ -41,3 +41,10 @@ export class Payment {
   amount: number;
   active: boolean;
 }
+
+export class Message {
+  title: string;
+  content: string;
+  error: boolean;
+  refresh: boolean;
+}

@@ -12,6 +12,10 @@ export class PaymentsComponent implements OnInit {
 
   payments: Payment[];
 
+  total: number;
+
+  loaded: boolean;
+
   constructor(private payment: PaymentService, private data: DataService) { }
 
   ngOnInit() {
@@ -23,7 +27,21 @@ export class PaymentsComponent implements OnInit {
   }
 
   refresh(): void {
-    this.payment.getPayments().subscribe(p => this.payments = p.reverse());
+    this.payment.getPayments().subscribe(p => {
+      this.payments = p.reverse();
+      this.total = 0;
+      for (let p of this.payments) {
+        this.total += p.amount;
+      }
+      this.loaded = true;
+    }, error => {
+      this.data.publishMessage({
+        title: "Error!",
+        content: "Cannot load payments",
+        refresh: true,
+        error: true
+      })
+    });
   }
 
 }

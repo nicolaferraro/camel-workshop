@@ -1,12 +1,24 @@
-<h1><fa name="truck"></fa> Purchases</h1>
+<h1><fa name="truck"></fa> Purchases <span class="total" *ngIf="total > 0">({{total}})</span></h1>
 
-<div class="card purchase" *ngFor="let purchase of purchases">
-  <div class="card-header">
-    Purchase #{{purchase.id}}
+<div *ngIf="loaded">
+  <div *ngIf="purchases.length > 0">
+
+    <div class="card purchase" *ngFor="let purchase of purchases">
+      <div class="card-header">
+        Purchase #{{purchase.id}}
+      </div>
+      <div class="card-body">
+        <span [ngClass]="{'inactive': !purchase.active}" *ngFor="let itemEntry of purchase.items | mapValues"> {{itemEntry.value}}x<img src="{{catalog.items[itemEntry.key].image}}" style="width: 50px" class="img-thumbnail">
+        </span> &nbsp;&nbsp;
+      </div>
+    </div>
   </div>
-  <div class="card-body">
-    <span [ngClass]="{'inactive': !purchase.active}" *ngFor="let itemEntry of purchase.items | mapValues"> {{itemEntry.value}}x<img src="{{catalog.items[itemEntry.key].image}}" style="width: 50px" class="img-thumbnail">
-    </span> &nbsp;&nbsp;
+
+  <div *ngIf="purchases.length == 0">
+    <div class="alert-secondary alert fade show" role="alert">
+      No purchases
+    </div>
   </div>
 </div>
 
+<app-loading *ngIf="!loaded"></app-loading>

@@ -18,13 +18,20 @@ export class ItemsComponent implements OnInit {
 
   message: string;
 
-  error: boolean;
+  loaded: boolean;
 
   constructor(private itemsService: ItemService, private data: DataService) { }
 
   getItems(): void {
 
-    this.itemsService.getCatalog().subscribe(catalog => this.data.updateCatalog(catalog));
+    this.itemsService.getCatalog().subscribe(catalog => this.data.updateCatalog(catalog), error => {
+      this.data.publishMessage({
+        title: "Error!",
+        content: "Cannot load catalog",
+        refresh: true,
+        error: true
+      })
+    });
 
     this.data.catalog
       .subscribe(catalog => {
@@ -41,7 +48,7 @@ export class ItemsComponent implements OnInit {
           }
         });
 
-        this.total = 0;
+        this.loaded = true;
       });
   }
 
@@ -68,20 +75,25 @@ export class ItemsComponent implements OnInit {
     this.itemsService.makeOrder(this.cart)
       .subscribe(next => {
         this.message = "Order sent correctly!";
-        this.error = false;
         this.reset();
-        this.data.triggerModelChange()
+        this.data.triggerModelChange();
+        this.data.publishMessage({
+          title: "Done!",
+          content: "Order submitted successfully",
+          refresh: false,
+          error: false
+        })
       }, error => {
         this.message = "There were problems while sending the order!";
-        this.error = true;
-        this.data.triggerModelChange()
+        this.data.triggerModelChange();
+        this.data.publishMessage({
+          title: "Error!",
+          content: "Errors while submitting the order",
+          refresh: true,
+          error: true
+        })
       });
 
-  }
-
-  dismissAlert(): void {
-    this.message = null;
-    this.error = false;
   }
 
   ngOnInit() {

@@ -1,11 +1,11 @@
 
 <div class="row" style="margin-bottom: 20px">
   <div class="col-md-12">
-    <h1>Shopping List</h1>
+    <h1>Plush Toys Shop</h1>
   </div>
 </div>
 
-<div class="row">
+<div class="row" *ngIf="loaded">
   <div *ngFor="let item of items" class="col-md-3">
     <div class="card mb-3 box-shadow">
       <div style="height: 125px; width: 100%; display: block; overflow: hidden">
@@ -13,7 +13,7 @@
       </div>
       <div class="card-body">
         <h5 class="card-title">{{item.name}}</h5>
-        <p class="card-text">{{item.stockUnits}} items in stock</p>
+        <p class="card-text">{{item.price | currency}} <br /> {{item.stockUnits}} items in stock</p>
 
         <div class="d-flex justify-content-between align-items-center">
           <div class="btn-group">
@@ -31,16 +31,7 @@
 
 </div>
 
-<div *ngIf="message" class="row">
-  <div class="col-md-12">
-    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-      <strong *ngIf="error">Error!</strong> <strong *ngIf="!error">Success!</strong> {{message}}
-      <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="dismissAlert()">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-  </div>
-</div>
+<app-loading *ngIf="!loaded"></app-loading>
 
 <div class="row" style="margin-bottom: 20px">
   <div class="col-md-12">
@@ -52,10 +43,10 @@
 
 <div class="row">
   <div class="col-md-10">
-    <button type="button" class="btn btn-lg btn-outline-secondary pull-right" (click)="reset()"><fa name="undo"></fa> Reset</button>
+    <button [disabled]="total == 0" type="button" class="btn btn-lg btn-outline-secondary pull-right" (click)="reset()"><fa name="undo"></fa> Reset</button>
 
   </div>
   <div class="col-md-2">
-    <button type="button" class="btn btn-lg btn-primary pull-right" (click)="checkout()"><fa name="shopping-cart"></fa> Checkout</button>
+    <button [disabled]="total == 0" type="button" class="btn btn-lg btn-primary pull-right" (click)="checkout()"><fa name="shopping-cart"></fa> Checkout</button>
   </div>
 </div>

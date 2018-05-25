@@ -12,7 +12,11 @@ export class PurchasesComponent implements OnInit {
 
   purchases: Purchase[];
 
+  total: number;
+
   catalog: Catalog;
+
+  loaded: boolean;
 
   constructor(private purchaseService: PurchaseService, private data: DataService) { }
 
@@ -28,6 +32,20 @@ export class PurchasesComponent implements OnInit {
   refresh(): void {
     this.purchaseService.getPurchases().subscribe(purchases  => {
       this.purchases = purchases.sort((a, b) => b.id.localeCompare(a.id));
+      this.total = 0;
+      for (let p of this.purchases) {
+        for (let i in p.items) {
+          this.total += p.items[i]
+        }
+      }
+      this.loaded = true;
+    }, error => {
+      this.data.publishMessage({
+        title: "Error!",
+        content: "Cannot load purchases",
+        refresh: true,
+        error: true
+      })
     });
   }
 

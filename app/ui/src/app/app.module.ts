@@ -10,6 +10,8 @@ import {AngularFontAwesomeModule} from "angular-font-awesome";
 import { PurchasesComponent } from './purchases/purchases.component';
 import { MapValuesPipe } from './map-values.pipe';
 import { PaymentsComponent } from './payments/payments.component';
+import { LoadingComponent } from './loading/loading.component';
+import { MessagesComponent } from './messages/messages.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +20,9 @@ import { PaymentsComponent } from './payments/payments.component';
     AppNavbarComponent,
     PurchasesComponent,
     MapValuesPipe,
-    PaymentsComponent
+    PaymentsComponent,
+    LoadingComponent,
+    MessagesComponent
   ],
   imports: [
     BrowserModule,
