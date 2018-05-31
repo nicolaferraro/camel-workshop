@@ -11,17 +11,17 @@ public class CreditRoutes extends RouteBuilder {
 	@Override
 	public void configure() {
 
+		rest().get("/payments")
+				.route()
+				.bean("creditStore", "list")
+				.marshal().json(JsonLibrary.Jackson);
+
+
 		rest().post("/payments")
 				.route()
 				.unmarshal().json(JsonLibrary.Jackson, Payment.class)
 				.to("bean-validator:validatePayment")
 				.bean("creditStore", "add")
-				.marshal().json(JsonLibrary.Jackson);
-
-
-		rest().get("/payments")
-				.route()
-				.bean("creditStore", "list")
 				.marshal().json(JsonLibrary.Jackson);
 
 

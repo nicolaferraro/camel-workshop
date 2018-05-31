@@ -10,6 +10,8 @@ import java.util.TreeMap;
 @Component("creditStore")
 public class CreditStoreImpl implements CreditStore {
 
+    private static final int BASE_CREDIT = 30;
+
     private Map<String, Integer> accounts = new TreeMap<>();
 
     private Map<String, Payment> payments = new TreeMap<>();
@@ -22,7 +24,7 @@ public class CreditStoreImpl implements CreditStore {
 
         Integer current = accounts.get(payment.getUser());
         if (current == null) {
-            current = 100; // BASE value
+            current = BASE_CREDIT;
         }
 
         if (current - payment.getAmount() < 0) {
