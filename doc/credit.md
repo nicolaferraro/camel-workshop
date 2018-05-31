@@ -25,8 +25,9 @@ Download the supporting classes from here and place them in the `org.apache.came
 
 - [CreditStore.java](https://raw.githubusercontent.com/nicolaferraro/camel-workshop/master/app/credit/src/main/java/org/apache/camel/workshop/credit/CreditStore.java) (Credit store interface)
 - [CreditStoreImpl.java](https://raw.githubusercontent.com/nicolaferraro/camel-workshop/master/app/credit/src/main/java/org/apache/camel/workshop/credit/CreditStoreImpl.java) (Credit store implementation)
-- [Payment.java](https://raw.githubusercontent.com/nicolaferraro/camel-workshop/master/app/credit/src/main/java/org/apache/camel/workshop/credit/CreditStoreImpl.java) (a bean)
+- [Payment.java](https://raw.githubusercontent.com/nicolaferraro/camel-workshop/master/app/credit/src/main/java/org/apache/camel/workshop/credit/Payment.java) (a bean)
 
+(*right click, save link as...*)
 
 ## Adding Camel dependencies
 
@@ -54,7 +55,7 @@ First, let's add the following dependencies to the `pom.xml` file.
 
 We have seen the first two dependencies in the `recommendation` service. 
 
-The `camel-bean-validator-starter` dependecy will be used to validate the input in some services. 
+The `camel-bean-validator-starter` dependency will be used to validate the input in some services. 
 
 ## Adding a endpoint to LIST Payments
 
@@ -96,14 +97,15 @@ The bean is published in the spring-boot registry and Camel retrieve it from the
 
 The `marshal()` operation is used here to convert the `List<Payment>` into the JSON format before sending it on the wire.
 
-Now, configure the context path in the `src/main/resources/application.properties` file:
+Now, configure the server port (**8082** for this service) and the context path in the `src/main/resources/application.properties` file:
 
 ```properties
 camel.component.servlet.mapping.context-path=/api/*
+server.port=8082
 ```
 
 You can now run the service with `mvn clean spring-boot:run`.
-The service is available in [http://localhost:8080/api/payments](http://localhost:8080/api/payments).
+The service is available in [http://localhost:8082/api/payments](http://localhost:8082/api/payments).
 
 ## Adding a endpoint to CREATE Payments
 
@@ -174,7 +176,7 @@ Note the new syntax used to pass the parameter: `remove(${header.ref})`.
 
 ## Start the service
 
-Start the app with `mvn clean spring-boot:run` and go to the following link: [http://localhost:8080/api/payments](http://localhost:8080/api/payments)
+Start the app with `mvn clean spring-boot:run` and go to the following link: [http://localhost:8082/api/payments](http://localhost:8082/api/payments)
 to check if everything is working fine.
 
 
@@ -184,15 +186,21 @@ If you have HTTPie installed you can test the following calls.
 
 **List payments**
 ```
-http GET :8080/api/payments
+http GET :8082/api/payments
 ```
 
-**Create a payment**
+**Create a invalid payment**
 ```
-echo '{"reference": "ref1", "user": "nicola", "amount": 1}' | http POST :8080/api/payments
+echo '{"reference": "ref1", "user": "nicola", "amount": -2}' | http POST :8082/api/payments
+```
+
+**Create a valid payment**
+```
+echo '{"reference": "ref1", "user": "nicola", "amount": 1}' | http POST :8082/api/payments
 ```
 
 **Delete a payment**
 ```
-http DELETE :8080/api/payments/ref1
+http DELETE :8082/api/payments/ref1
 ```
+

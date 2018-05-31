@@ -94,16 +94,19 @@ It's a fake recommendation suggesting only item with id `i99` (you'll see what i
 Camel will expose the endpoint on the URL: `http://localhost:8080/camel/recommendations`.
 For this demo, **we want to use a different context path**, so we configure it on the `application.properties` file.
 
+We want also to start multiple endpoints on the same development machine, so we set the **server port to 8083** for this service.
+
 Edit the `src/main/resources/application.properties` file and put the following:
 
 ```properties
 camel.component.servlet.mapping.context-path=/api/*
+server.port=8083
 ``` 
 
 **Note**: Some IDE, like IntelliJ IDEA Ultimate, provide autocompletion of available properties.
 
 ## Start the service
 
-Start the app with `mvn clean spring-boot:run` and go to the following link: [http://localhost:8080/api/recommendations](http://localhost:8080/api/recommendations).
+Start the app with `mvn clean spring-boot:run` and go to the following link: [http://localhost:8083/api/recommendations](http://localhost:8083/api/recommendations).
 
 You'll see the recommendations as json data.

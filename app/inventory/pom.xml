@@ -46,7 +46,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.apache.camel</groupId>
-			<artifactId>camel-swagger-java</artifactId>
+			<artifactId>camel-swagger-java-starter</artifactId>
 			<version>2.21.1</version>
 		</dependency>
 

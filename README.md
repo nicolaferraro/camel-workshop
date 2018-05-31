@@ -30,13 +30,13 @@ The final result of the workshop is a "Plush Shop Demo".
 
 [Here's how to create the recommendation service](/doc/recommendation.md).
 
-### Inventory Service
-
-[Here's how to create the inventory service](/doc/inventory.md).
-
 ### Credit Service
 
 [Here's how to create the credit service](/doc/credit.md).
+
+### Inventory Service
+
+[Here's how to create the inventory service](/doc/inventory.md).
 
 ### Gateway Service
 
