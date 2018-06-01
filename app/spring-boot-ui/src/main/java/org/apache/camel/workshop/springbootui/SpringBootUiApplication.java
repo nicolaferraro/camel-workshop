@@ -1,13 +1,12 @@
-package org.apache.camel.workshop.gateway;
+package org.apache.camel.workshop.springbootui;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class GatewayApplication {
+public class SpringBootUiApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(GatewayApplication.class, args);
+		SpringApplication.run(SpringBootUiApplication.class, args);
 	}
-
 }

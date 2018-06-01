@@ -96,6 +96,7 @@ Add a global REST configuration like:
 ```java
 restConfiguration()
         .bindingMode(RestBindingMode.json)
+        .enableCORS(true)
         .apiContextPath("/doc")
         .apiProperty("api.title", "Inventory API")
         .apiProperty("api.version", "1.0");
@@ -116,11 +117,11 @@ The following route can be written to create a REST endpoint that returns the fu
 
 ```java
 rest().get("/items")
-        .responseMessage()
-            .code(200).message("Ok")
-        .endResponseMessage()
-        .route()
-        .bean("inventory", "getCatalog");
+    .responseMessage()
+        .code(200).message("Ok")
+    .endResponseMessage()
+    .route().id("getItems")
+    .bean("inventory", "getCatalog");
 ```
 
 It's a simple bean call, but note how we added annotation for describing return codes.
@@ -131,8 +132,11 @@ Purchases can be similarly obtained with the following route:
 
 ```java
 rest().get("/purchases")
-        .route()
-        .bean("inventory", "getPurchases");
+    .responseMessage()
+        .code(200).message("Ok")
+    .endResponseMessage()
+    .route().id("getPurchases")
+    .bean("inventory", "getPurchases");
 ```
 
 ## Adding a endpoint to ADD items to a Purchase
@@ -142,32 +146,32 @@ Items can be added to a purchase (that is created the first time is encountered)
 
 ```java
 rest().post("/purchases/{ref}/items/{id}")
-        .param()
-            .name("ref")
-            .description("Reference code of the purchase")
-            .type(RestParamType.path)
-        .endParam()
-        .param()
-            .name("id")
-            .description("Item Id")
-            .type(RestParamType.path)
-        .endParam()
-        .param()
-            .name("amount")
-            .description("Amount to buy")
-            .type(RestParamType.query)
-            .required(false)
-        .endParam()
-        .responseMessage()
-            .code(200).message("Ok")
-        .endResponseMessage()
-        .route()
-            .choice()
-                .when(simple("${header.amount} == null"))
-                    .setHeader("amount", constant(1))
-            .end()
-            .validate(header("amount").convertTo(Integer.class).isGreaterThan(0))
-            .bean("inventory", "addToPurchase(${header.ref}, ${header.id}, ${header.amount})");
+    .param()
+        .name("ref")
+        .description("Reference code of the purchase")
+        .type(RestParamType.path)
+    .endParam()
+    .param()
+        .name("id")
+        .description("Item Id")
+        .type(RestParamType.path)
+    .endParam()
+    .param()
+        .name("amount")
+        .description("Amount to buy")
+        .type(RestParamType.query)
+        .required(false)
+    .endParam()
+    .responseMessage()
+        .code(200).message("Ok")
+    .endResponseMessage()
+    .route().id("addToPurchase")
+    .choice()
+        .when(simple("${header.amount} == null"))
+            .setHeader("amount", constant(1))
+    .end()
+    .validate(header("amount").convertTo(Integer.class).isGreaterThan(0))
+    .bean("inventory", "addToPurchase(${header.ref}, ${header.id}, ${header.amount})");
 ```
 
 There are several patterns and annotations used here.
@@ -194,7 +198,10 @@ rest().delete("/purchases/{ref}")
         .description("Reference code of the purchase")
         .type(RestParamType.path)
     .endParam()
-    .route()
+    .responseMessage()
+        .code(200).message("Ok")
+    .endResponseMessage()
+    .route().id("deletePurchase")
     .bean("inventory", "cancelPurchase(${header.ref})");
 ```
 
@@ -202,13 +209,18 @@ Note that once a purchase is deleted, no items can be added to it and items are 
 
 ## Start the service
 
-Start the app with `mvn clean spring-boot:run` and go to the following link: [http://localhost:8081/api/catalog](http://localhost:8081/api/catalog)
+Start the app with `mvn clean spring-boot:run` and go to the following link: [http://localhost:8081/api/items](http://localhost:8081/api/items)
 to check if everything is working fine.
 
 ## Checking the Swagger doc
 
 Point your browser to the URL [http://localhost:8081/api/doc](http://localhost:8081/api/doc), you will find
 the swagger definition of all the services.
+
+You can visualize the API on [https://editor.swagger.io](https://editor.swagger.io).
+Since we have enabled CORS, you can go to the Swagger editor website, click on *File -> Import URL* and paste `http://localhost:8081/api/doc`.
+
+The API will be shown and there are tools e.g. to generate clients for many languages. 
 
 ## Test the service
 
@@ -221,20 +233,20 @@ http GET :8081/api/doc
 
 **Get Catalog**
 ```
-http GET :8081/api/catalog
+http GET :8081/api/items
 ```
 
-**Get Purchases**
+**Get all Purchases**
 ```
 http GET :8081/api/purchases
 ```
 
-**Add item to a purchase**
+**Add item to a Purchase**
 ```
-http POST :8081/api/purchases/ref1/items/i1?quantity=2
+http POST :8081/api/purchases/ref1/items/i1?amount=2
 ```
 
-**Delete a purchase**
+**Delete a Purchase**
 ```
 http DELETE :8081/api/purchases/ref1
 ```

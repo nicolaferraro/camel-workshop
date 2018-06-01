@@ -20,9 +20,10 @@ The final result of the workshop is a "Plush Shop Demo".
 
 ## Requirements
 
-**TODO: WRITE REQUIREMENTS**
-
-- HTTPie
+- Java 8
+- Maven 3.5.0
+- Your favourite IDE
+- HTTPie (to test endpoints)
 
 ## Let's start
 

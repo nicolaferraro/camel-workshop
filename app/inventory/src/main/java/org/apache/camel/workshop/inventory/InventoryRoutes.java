@@ -17,6 +17,7 @@ public class InventoryRoutes extends RouteBuilder {
 
         restConfiguration()
                 .bindingMode(RestBindingMode.json)
+                .enableCORS(true)
                 .apiContextPath("/doc")
                 .apiProperty("api.title", "Inventory API")
                 .apiProperty("api.version", "1.0");
@@ -30,7 +31,7 @@ public class InventoryRoutes extends RouteBuilder {
                 .responseMessage()
                     .code(200).message("Ok")
                 .endResponseMessage()
-                .route()
+                .route().id("getItems")
                 .bean("inventory", "getCatalog");
 
 
@@ -39,7 +40,10 @@ public class InventoryRoutes extends RouteBuilder {
          */
 
         rest().get("/purchases")
-                .route()
+                .responseMessage()
+                    .code(200).message("Ok")
+                .endResponseMessage()
+                .route().id("getPurchases")
                 .bean("inventory", "getPurchases");
 
         /*
@@ -67,13 +71,13 @@ public class InventoryRoutes extends RouteBuilder {
                 .responseMessage()
                     .code(200).message("Ok")
                 .endResponseMessage()
-                .route()
-                    .choice()
-                        .when(simple("${header.amount} == null"))
-                            .setHeader("amount", constant(1))
-                    .end()
-                    .validate(header("amount").convertTo(Integer.class).isGreaterThan(0))
-                    .bean("inventory", "addToPurchase(${header.ref}, ${header.id}, ${header.amount})");
+                .route().id("addToPurchase")
+                .choice()
+                    .when(simple("${header.amount} == null"))
+                        .setHeader("amount", constant(1))
+                .end()
+                .validate(header("amount").convertTo(Integer.class).isGreaterThan(0))
+                .bean("inventory", "addToPurchase(${header.ref}, ${header.id}, ${header.amount})");
 
 
         /*
@@ -81,13 +85,16 @@ public class InventoryRoutes extends RouteBuilder {
          */
 
         rest().delete("/purchases/{ref}")
-            .param()
-                .name("ref")
-                .description("Reference code of the purchase")
-                .type(RestParamType.path)
-            .endParam()
-            .route()
-            .bean("inventory", "cancelPurchase(${header.ref})");
+                .param()
+                    .name("ref")
+                    .description("Reference code of the purchase")
+                    .type(RestParamType.path)
+                .endParam()
+                .responseMessage()
+                    .code(200).message("Ok")
+                .endResponseMessage()
+                .route().id("deletePurchase")
+                .bean("inventory", "cancelPurchase(${header.ref})");
 
 
     }
