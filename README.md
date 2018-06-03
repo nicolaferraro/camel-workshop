@@ -43,6 +43,10 @@ The final result of the workshop is a "Plush Shop Demo".
 
 [Here's how to create the gateway service](/doc/gateway.md).
 
+### Running the UI
+
+[Here's how to run the UI](/doc/ui.md).
+
 ### Circuit breaking and Caching
 
 [Let's add a circuit breaker and caching logic](/doc/circuit-breaker.md).
