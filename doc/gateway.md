@@ -83,15 +83,9 @@ Create a empty `GatewayRoutes` class with some utility methods:
 ```java
 package org.apache.camel.workshop.gateway;
 
-import org.apache.camel.Exchange;
 import org.apache.camel.builder.RouteBuilder;
-import org.apache.camel.component.caffeine.CaffeineConstants;
-import org.apache.camel.http.common.HttpMethods;
-import org.apache.camel.impl.saga.InMemorySagaService;
-import org.apache.camel.model.dataformat.JsonLibrary;
 import org.springframework.stereotype.Component;
 
-import java.util.Collections;
 import java.util.List;
 
 @Component
@@ -101,20 +95,22 @@ public class GatewayRoutes extends RouteBuilder {
 
     @Override
     public void configure() throws Exception {
-        
+
         restConfiguration()
                 .component("servlet")
                 .enableCORS(true);
-        
+
+
+
         // routes here
-        
+
     }
 
     /*
      * Utility methods
      */
-    
-    
+
+
     private Payment createPayment(Order order) {
         Payment payment = new Payment();
         payment.setUser(order.getUser());
