@@ -12,11 +12,24 @@ to follow the step-by-step guide.
 
 The final result of the workshop is a "Plush Shop Demo".
 
-**TODO: ADD A PICTURE**
+![Plush Shop Catalog](/doc/catalog.png "Plush Shop Catalog")
+
+
+A demo user can make purchases on the Plush Shop, if he has enough credit...
+
+![Plush Shop Purchase](/doc/purchases.png "Plush Shop Purchases")
 
 ## Architecture
 
-**TODO: EXPLAIN ARCHITECTURE**
+The system is composed of a Angular 6 UI interface backed by **4** microservices.
+
+![Plush Shop Architecture](/doc/camel-workshop-architecture.png "Plush Shop Architecture")
+
+The role of each service is:
+- **Recommendation**: a simple recommendation service that provide ratings for the best items;
+- **Credit**: manages how much money is owned by the user(s);
+- **Inventory**: manages items present in stock and movement out of it;
+- **Gateway**: provides uniform access to all other services and orchestrates calls to them.
 
 ## Requirements
 
