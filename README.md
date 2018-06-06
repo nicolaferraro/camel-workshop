@@ -40,7 +40,7 @@ The role of each service is:
 
 HTTPie can be [installed on Linux, OSX and Windows](https://httpie.org/doc#installation).
 
-**For Windows users:** Installation on Windows requires `pip` that is included in the [Python package](https://www.python.org/downloads/windows/). 
+**For Windows users:** Installation on Windows requires `pip` that is included in the [Python installer](https://www.python.org/downloads/windows/). 
 Read [this thread](https://stackoverflow.com/questions/4750806/how-do-i-install-pip-on-windows) if you need to troubleshoot.
 Alternatively, you can use a graphical tool like [Postman](https://www.getpostman.com/) to test endpoints, but instructions
 on this tutorial are given for **HTTPie** only. 
