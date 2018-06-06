@@ -24,8 +24,8 @@ mvn clean install
 
 We'll use some supporting beans, mostly shared with the other microservices. They should be placed in the `org.apache.camel.workshop.gateway` package.  
 
-- [Catalog.java](https://raw.githubusercontent.com/nicolaferraro/camel-workshop/master/app/gateway/src/main/java/org/apache/camel/workshop/gateway/Catalog.java) (Catalog bean)
 - [Item.java](https://raw.githubusercontent.com/nicolaferraro/camel-workshop/master/app/gateway/src/main/java/org/apache/camel/workshop/gateway/Item.java) (Item bean, enhanced with `recommended` field)
+- [Catalog.java](https://raw.githubusercontent.com/nicolaferraro/camel-workshop/master/app/gateway/src/main/java/org/apache/camel/workshop/gateway/Catalog.java) (Catalog bean)
 - [Order.java](https://raw.githubusercontent.com/nicolaferraro/camel-workshop/master/app/gateway/src/main/java/org/apache/camel/workshop/gateway/Order.java) (Order bean)
 - [Payment.java](https://raw.githubusercontent.com/nicolaferraro/camel-workshop/master/app/gateway/src/main/java/org/apache/camel/workshop/gateway/Payment.java) (Payment bean)
 

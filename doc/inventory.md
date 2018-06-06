@@ -27,11 +27,11 @@ We'll not write the business logic, instead we'll start from existing classes an
 
 Download the supporting classes from here and place them in the `org.apache.camel.workshop.inventory` package:
 
+- [Item.java](https://raw.githubusercontent.com/nicolaferraro/camel-workshop/master/app/inventory/src/main/java/org/apache/camel/workshop/inventory/Item.java) (Item bean)
+- [Catalog.java](https://raw.githubusercontent.com/nicolaferraro/camel-workshop/master/app/inventory/src/main/java/org/apache/camel/workshop/inventory/Catalog.java) (Catalog bean)
+- [Purchase.java](https://raw.githubusercontent.com/nicolaferraro/camel-workshop/master/app/inventory/src/main/java/org/apache/camel/workshop/inventory/Purchase.java) (Purchase bean)
 - [Inventory.java](https://raw.githubusercontent.com/nicolaferraro/camel-workshop/master/app/inventory/src/main/java/org/apache/camel/workshop/inventory/Inventory.java) (Inventory interface)
 - [InventoryImpl.java](https://raw.githubusercontent.com/nicolaferraro/camel-workshop/master/app/inventory/src/main/java/org/apache/camel/workshop/inventory/InventoryImpl.java) (Inventory implementation)
-- [Catalog.java](https://raw.githubusercontent.com/nicolaferraro/camel-workshop/master/app/inventory/src/main/java/org/apache/camel/workshop/inventory/Catalog.java) (Catalog bean)
-- [Item.java](https://raw.githubusercontent.com/nicolaferraro/camel-workshop/master/app/inventory/src/main/java/org/apache/camel/workshop/inventory/Item.java) (Item bean)
-- [Purchase.java](https://raw.githubusercontent.com/nicolaferraro/camel-workshop/master/app/inventory/src/main/java/org/apache/camel/workshop/inventory/Purchase.java) (Purchase bean)
 
 (*right click, save link as...*)
 

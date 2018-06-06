@@ -29,9 +29,9 @@ We'll not write the business logic, instead we'll start from existing classes an
 
 Download the supporting classes from here and place them in the `org.apache.camel.workshop.credit` package:
 
+- [Payment.java](https://raw.githubusercontent.com/nicolaferraro/camel-workshop/master/app/credit/src/main/java/org/apache/camel/workshop/credit/Payment.java) (a bean)
 - [CreditStore.java](https://raw.githubusercontent.com/nicolaferraro/camel-workshop/master/app/credit/src/main/java/org/apache/camel/workshop/credit/CreditStore.java) (Credit store interface)
 - [CreditStoreImpl.java](https://raw.githubusercontent.com/nicolaferraro/camel-workshop/master/app/credit/src/main/java/org/apache/camel/workshop/credit/CreditStoreImpl.java) (Credit store implementation)
-- [Payment.java](https://raw.githubusercontent.com/nicolaferraro/camel-workshop/master/app/credit/src/main/java/org/apache/camel/workshop/credit/Payment.java) (a bean)
 
 (*right click, save link as...*)
 
