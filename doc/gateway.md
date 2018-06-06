@@ -168,7 +168,7 @@ recommendation.service=${recommendation.host}:${recommendation.port}
 ## Adding simple proxy endpoints
 
 Some of the endpoints exposed by the gateway are simple *proxy* endpoints that 
-forward requests to the other services. We can declare them easily:
+forward requests to the other services. We can declare them easily (*inside the `configure()` method, right after `restConfiguration()` declaration*):
 
 ```java
 rest().get("/payments")
@@ -192,6 +192,8 @@ We'll change the `/items` endpoint *later to add recommendations, circuit breaki
 
 Executing a order is a complex workflow. The user sends a Order object containing a set of items
 and the gateway should *make a Payment* using the credit service and *add all Purchases* in the inventory service.
+
+Let's add the following code to make a order (*inside the `configure()` method, right after the previous `rest()` declaration*): 
 
 
 ```java

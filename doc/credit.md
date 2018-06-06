@@ -117,7 +117,7 @@ The service is available in [http://localhost:8082/api/payments](http://localhos
 
 When submitting a Payment, the client sends a JSON object and we must process it.
 
-Let's add the following route:
+Let's add the following route (*inside the `configure()` method, right after the previous `rest()` declaration*):
 
 ```java
 rest().post("/payments")
@@ -157,7 +157,7 @@ We `marshal()` the response to JSON (we echo the input data).
 
 ## Adding a endpoint to DELETE Payments
 
-Payments sometimes should be cancelled because of errors, so we add a specific endpoint for that.
+Payments sometimes should be cancelled because of errors, so we add a specific endpoint for that (*inside the `configure()` method, right after the previous `rest()` declaration*).
 
 ```java
 
@@ -199,6 +199,8 @@ http GET :8082/api/payments
 ```
 echo '{"reference": "ref1", "user": "nicola", "amount": -2}' | http POST :8082/api/payments
 ```
+
+You should see a error coming back from the service.
 
 **Create a valid payment**
 ```

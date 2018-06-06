@@ -119,7 +119,7 @@ server.port=8081
 
 ## Adding a endpoint to GET the Catalog
 
-The following route can be written to create a REST endpoint that returns the full catalog.
+The following route can be written to create a REST endpoint that returns the full catalog (*inside the `configure()` method*).
 
 ```java
 rest().get("/items")
@@ -134,7 +134,7 @@ It's a simple bean call, but note how we added annotation for describing return 
 
 ## Adding a endpoint to GET the Purchases
 
-Purchases can be similarly obtained with the following route:
+Purchases can be similarly obtained with the following route (*inside the `configure()` method, right after the previous `rest()` declaration*):
 
 ```java
 rest().get("/purchases")
@@ -148,7 +148,7 @@ rest().get("/purchases")
 ## Adding a endpoint to ADD items to a Purchase
 
 To make thing a bit complex, we let user to provide the list of items they are going to buy one by one.
-Items can be added to a purchase (that is created the first time is encountered) using the following route:
+Items can be added to a purchase (that is created the first time is encountered) using the following route (*inside the `configure()` method, right after the previous `rest()` declaration*):
 
 ```java
 rest().post("/purchases/{ref}/items/{id}")
@@ -194,7 +194,7 @@ Once the check is done, we make a basic validation to ensure that we don't recei
 
 ## Adding a endpoint to DELETE a Purchase
 
-Purchase deletion can be done with a route like the following:
+Purchase deletion can be done with a route like the following (*inside the `configure()` method, right after the previous `rest()` declaration*):
 
 
 ```java
