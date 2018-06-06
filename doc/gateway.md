@@ -227,8 +227,16 @@ Note that **all endpoints are invoked in parallel**, also the calls for differen
 
 ## Start the service
 
-Start the app with `mvn clean spring-boot:run` and go to the following link: [http://localhost:8080/api/items](http://localhost:8080/api/items)
-to check if everything is working fine. The catalog is proxied from the inventory service. 
+This service **depends on all other services** so, before using this service, you must ensure that all other services we have created so far are also running.
+
+You can run all other services by *opening a terminal for each one* (*recommendation*, *credit*, *inventory*), going into their respective base
+directory (where each `pom.xml` file is located) and run `mvn clean spring-boot:run`.
+
+We have made sure that each service run on a distinct port so we shouldn't have collisions (we've used *8080, 8081, 8082 and 8083*). 
+
+Now, open another terminal for the *gateway* (go to the gateway root directory), start the app with `mvn clean spring-boot:run` and 
+go to the following link: [http://localhost:8080/api/items](http://localhost:8080/api/items)
+to check if everything is working fine. You'll see the catalog, proxied from the inventory service. 
 
 ## Test the service
 
@@ -236,6 +244,8 @@ to check if everything is working fine. The catalog is proxied from the inventor
 ```
 http GET :8080/api/items
 ```
+
+Note that this is the same call that we have done to the inventory service (port 8081), but it's done on the gateway here.
 
 **Get all Purchases**
 ```
@@ -252,3 +262,4 @@ http GET :8080/api/payments
 echo '{"reference": "order-1", "user": "cippalippa", "items": [{"id": "i1", "amount": 3}], "price": 3}' | http POST :8080/api/orders
 ```
 
+After doing the order, check the catalog, purchases and payments again. 
