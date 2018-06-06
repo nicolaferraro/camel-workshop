@@ -13,7 +13,13 @@ We'll create a *Camel* on *spring-boot* project:
 - Add to the list of dependencies: `Apache Camel`, `Web`, `DevTools`  
 - Set groupId to `org.apache.camel.workshop` and project name to `inventory`
 - Download the project archive and extract
-- Open in on your IDE if needed
+- Open it in your IDE
+
+As done for the previous service, you can do a first build from the root directory of the project (where `pom.xml` is located) with the command:
+
+```
+mvn clean install
+```
 
 ## Adding the business logic and supporting beans
 

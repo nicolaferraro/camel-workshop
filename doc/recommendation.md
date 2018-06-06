@@ -11,10 +11,21 @@ We'll create a *Camel* on *spring-boot* project:
 
 - Go to [https://start.spring.io](https://start.spring.io)
 - Select Spring-Boot version *1.5.13* (Camel *2.22.0*, released mid June 2018, supports spring-boot *2.x*)
-- Add to the list of dependencies: `Apache Camel`, `Web`, `DevTools`  
+- Add to the list of dependencies: `Apache Camel`, `Web`, `DevTools` 
 - Set groupId to `org.apache.camel.workshop` and project name to `recommendation`
 - Download the project archive and extract
-- Open in on your IDE if needed
+- Open it in your IDE
+
+You can run the following command from the root directory of the project (where `pom.xml` is located) to do a first build.
+
+```
+mvn clean install
+```
+
+Dependencies are downloaded from Maven repositories, tests are executed (they should pass),
+then a standalone *fat-jar* is created in the `target` directory.
+
+The `fat-jar` contains all required dependencies and is runnable (you can run it with `java -jar ./target/recommendation-0.0.1-SNAPSHOT.jar` if you want).
 
 ## Adding a "Hello World" route
 
