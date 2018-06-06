@@ -77,7 +77,9 @@ Add the following to the `pom.xml`:
 </dependency>
 ```
 
-Camel ships also a BOM called `org.apache.camel:camel-bom` if you want to manage automatically dependency versions.
+Camel ships also a **BOM** (Bill Of Materials) that helps to manage automatically dependency versions.
+[Follow this section if you want to know more](using-bom.md) about this feature. 
+
 
 Now replace the hello world route with the rest route.
 
