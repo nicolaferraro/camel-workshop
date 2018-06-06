@@ -26,10 +26,12 @@ The system is composed of a Angular 6 UI interface backed by **4** microservices
 ![Plush Shop Architecture](/doc/camel-workshop-architecture.png "Plush Shop Architecture")
 
 The role of each service is:
-- **Recommendation**: a simple recommendation service that provide ratings for the best items;
-- **Credit**: manages how much money is owned by the user(s);
-- **Inventory**: manages items present in stock and movement out of it;
-- **Gateway**: provides uniform access to all other services and orchestrates calls to them.
+- **UI** (Angular 6 on Node.js or any static HTTP server): a graphical user interface that is provided for the workshop and can
+be used to test the full application; 
+- **Recommendation** (Camel on Spring-Boot): a simple recommendation service that provide ratings for the best items;
+- **Credit** (Camel on Spring-Boot): manages how much money is owned by the user(s);
+- **Inventory** (Camel on Spring-Boot): manages items present in stock and movement out of it;
+- **Gateway** (Camel on Spring-Boot): provides uniform access to all other services and orchestrates calls to them.
 
 ## Requirements
 
