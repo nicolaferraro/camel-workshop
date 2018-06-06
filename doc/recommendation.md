@@ -25,7 +25,7 @@ mvn clean install
 Dependencies are downloaded from Maven repositories, tests are executed (they should pass),
 then a standalone *fat-jar* is created in the `target` directory.
 
-The `fat-jar` contains all required dependencies and is runnable (you can run it with `java -jar ./target/recommendation-0.0.1-SNAPSHOT.jar` if you want).
+The `fat-jar` contains all required dependencies and is runnable (you can run it with `java -jar ./target/recommendation-0.0.1-SNAPSHOT.jar` if you want, but we haven't added any code yet).
 
 ## Adding a "Hello World" route
 
@@ -121,3 +121,5 @@ server.port=8083
 Start the app with `mvn clean spring-boot:run` and go to the following link: [http://localhost:8083/api/recommendations](http://localhost:8083/api/recommendations).
 
 You'll see the recommendations as json data.
+
+You can stop the service by just pressing `ctrl + c` on the terminal that started the application.
