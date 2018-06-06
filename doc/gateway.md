@@ -218,7 +218,7 @@ from("direct:payOrder")
 from("direct:purchaseOrderItems")
         .setHeader("reference", simple("${body.reference}"))
         .split().simple("${body.items}").parallelProcessing()
-            .toD("undertow:http://{{inventory.service}}/api/purchases/${header.reference}/items/${body.id}?amount=${body.amount}")
+            .toD("undertow:http://{{inventory.service}}/api/purchases/${header.reference}/items/${body.id}?amount=${body.amount}");
 ```
 
 We've written 2 sub-routes for making a payment from a order and purchasing all items contained in the order.
