@@ -49,32 +49,34 @@ on this tutorial are given for **HTTPie** only.
 
 
 
-## Let's start
+## Part 1: writing the services
 
-### Recommendation Service
+### 1. Recommendation Service
 
 [Here's how to create the recommendation service](/doc/recommendation.md).
 
-### Credit Service
+### 2. Credit Service
 
 [Here's how to create the credit service](/doc/credit.md).
 
-### Inventory Service
+### 3. Inventory Service
 
 [Here's how to create the inventory service](/doc/inventory.md).
 
-### Gateway Service
+### 4. Gateway Service
 
 [Here's how to create the gateway service](/doc/gateway.md).
 
-### Running the UI
+### 5. Running the UI
 
 [Here's how to run the UI](/doc/ui.md).
 
-### Circuit breaking and Caching
+## Part 2: advanced features
+
+### 6. Circuit breaking and Caching
 
 [Let's add a circuit breaker and caching logic](/doc/circuit-breaker.md).
 
-### Adding Sagas
+### 7. Adding Sagas
 
 [Let's see how to fix inconsistencies](/doc/saga.md).
