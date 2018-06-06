@@ -9,7 +9,7 @@ We'll create a *Camel* on *spring-boot* project:
 
 - Go to [https://start.spring.io](https://start.spring.io)
 - Select Spring-Boot version *1.5.13* (Camel *2.22.0*, released mid June 2018, supports spring-boot *2.x*)
-- Add to the list of dependencies: `Apache Camel`, `Web`, `DevTools`  
+- Add to the list of dependencies: `Apache Camel`, `Web`, `DevTools` (for auto-reload)  
 - Set groupId to `org.apache.camel.workshop` and project name to `gateway`
 - Download the project archive and extract
 - Open it in your IDE

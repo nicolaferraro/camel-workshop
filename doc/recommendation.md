@@ -11,10 +11,15 @@ We'll create a *Camel* on *spring-boot* project:
 
 - Go to [https://start.spring.io](https://start.spring.io)
 - Select Spring-Boot version *1.5.13* (Camel *2.22.0*, released mid June 2018, supports spring-boot *2.x*)
-- Add to the list of dependencies: `Apache Camel`, `Web`, `DevTools` 
+- Add to the list of dependencies: `Apache Camel`, `Web`, `DevTools` (for auto-reload, see below)
 - Set groupId to `org.apache.camel.workshop` and project name to `recommendation`
 - Download the project archive and extract
 - Open it in your IDE
+
+The `DevTools` dependency is *optional* but it's often a nice addon during development, especially for the **auto-reload** feature.
+You can keep your application running (see the final part of this section for how to do it)
+while changing your code: each time you save and recompile using your IDE, the running application is reloaded automatically and you see
+the changes immediately. 
 
 You can run the following command from the root directory of the project (where `pom.xml` is located) to do a first build.
 
