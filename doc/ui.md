@@ -47,5 +47,5 @@ The compiled version of the ui is placed by `ng` in the `app/ui/dist` directory.
 The content of that directory has been copied into [/app/spring-boot-ui/src/main/resources/static](/app/spring-boot-ui/src/main/resources/static) directory and is
 served automatically by spring-boot when running the application.
 
-An equivalent way to run the spring-boot UI application is to clone this repository and run `mvn clean spring-boot-run` from the [/app/spring-boot-ui](/app/spring-boot-ui) directory.
+An equivalent way to run the spring-boot UI application is to clone this repository and run `mvn clean spring-boot:run` from the [/app/spring-boot-ui](/app/spring-boot-ui) directory.
  
