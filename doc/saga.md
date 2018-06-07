@@ -20,7 +20,7 @@ We can define the saga in the **gateway service**.
 First, let's define the type of Saga service we want to use:
 
 ```java
-// below rest configuration, put
+// below rest configuration, inside the configure() method, put
 getContext().addService(new InMemorySagaService(), true);
 ```
 

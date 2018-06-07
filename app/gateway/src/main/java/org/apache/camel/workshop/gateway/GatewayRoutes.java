@@ -46,7 +46,7 @@ public class GatewayRoutes extends RouteBuilder {
                 .route()
                 .to("undertow:http://{{inventory.service}}/api/items")
                 .unmarshal().json(JsonLibrary.Jackson, Catalog.class)
-                .enrichWith("direct:recommendationHystrix")
+                .enrichWith("direct:recommendation")
                     .body(Catalog.class, List.class, this::recommend)
                 .marshal().json(JsonLibrary.Jackson);
 
@@ -54,24 +54,24 @@ public class GatewayRoutes extends RouteBuilder {
          * Recommendations
          */
 
-        from("direct:recommendationHystrix")
-                .hystrix()
-                    .to("direct:recommendation")
-                    .setHeader(CaffeineConstants.ACTION, constant(CaffeineConstants.ACTION_PUT))
-                    .to("caffeine-cache:global?key=recommendation")
-                .onFallback()
-                    .setHeader(CaffeineConstants.ACTION, constant(CaffeineConstants.ACTION_GET))
-                    .to("caffeine-cache:global?key=recommendation")
-                    .choice()
-                        .when(header("CamelCaffeineActionHasResult").isNotEqualTo(true))
-                            .setBody(constant(Collections.emptyList()))
-                    .end()
-                .end();
-
         from("direct:recommendation")
+            .hystrix()
                 .setHeader(Exchange.HTTP_METHOD, constant(HttpMethods.GET))
                 .to("undertow:http://{{recommendation.service}}/api/recommendations")
-                .unmarshal().json(JsonLibrary.Jackson, List.class);
+                .unmarshal().json(JsonLibrary.Jackson, List.class)
+                .setHeader(CaffeineConstants.ACTION, constant(CaffeineConstants.ACTION_PUT))
+                .setHeader(CaffeineConstants.KEY, constant("recommendation"))
+                .to("caffeine-cache:global")
+            .endHystrix()
+            .onFallback()
+                .setHeader(CaffeineConstants.ACTION, constant(CaffeineConstants.ACTION_GET))
+                .setHeader(CaffeineConstants.KEY, constant("recommendation"))
+                .to("caffeine-cache:global")
+                .choice()
+                    .when(header("CamelCaffeineActionHasResult").isNotEqualTo(true))
+                        .setBody(constant(Collections.emptyList()))
+                .end()
+            .end();
 
 
         /*

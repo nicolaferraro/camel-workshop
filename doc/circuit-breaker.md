@@ -60,7 +60,7 @@ We assume that all backend services are still running (start them if they are st
  
 Stop the *gateway service* and start it again in order to apply changes. **If you look at the UI, you should see some stars below the best item of the catalog**.
 
-Nice, but now **if you stop the recommendation service, the ui wont display the items anymore**.
+Nice, but now **if you stop the recommendation service, the ui wont display the items anymore** if you refresh it (other errors may appear due to the missing catalog).
 
 How can we solve this issue?
 
@@ -68,26 +68,23 @@ How can we solve this issue?
 
 We can protect the app from failures of the recommendation service by adding a circuit breaker.
 
-Let's wrap the `direct:recommendation` route to add the *Hystrix EIP*:
+Let's **rewrite** the `direct:recommendation` route to add the *Hystrix EIP*:
 
 ```java
-from("direct:recommendationHystrix")
+from("direct:recommendation")
         .hystrix()
-            .to("direct:recommendation")
+            .setHeader(Exchange.HTTP_METHOD, constant(HttpMethods.GET))
+            .to("undertow:http://{{recommendation.service}}/api/recommendations")
+            .unmarshal().json(JsonLibrary.Jackson, List.class)
+        .endHystrix()
         .onFallback()
             .setBody(constant(Collections.emptyList()))
         .end();
 ```
 
-Now replace the call to `direct:recommendation` with a call to `direct:recommendationHystrix`.
+Note the difference with the previous code: the *hystrix()* EIP has been added around the call to the recommendation service and in the last part of the route we have added a fallback strategy that should be used when the recommendation service is not available (return a *empty* recommendation).
 
-```java
-// inside get("/items") ....
-.enrichWith("direct:recommendationHystrix")
-// ...
-```
-
-Restart and try again. You'll see no recommendations if the recommendation service is down.
+Now, **restart the gateway service** and try again. You'll see no recommendations if the recommendation service is down.
 
 It acts as a standard circuit breaker, e.g. it opens temporarily the circuit if too many request
 arrive to the recommendation service and its replies are slow.
@@ -97,19 +94,24 @@ arrive to the recommendation service and its replies are slow.
 Even with the circuit breaker, "stars" are shown only when the recommendation service is active.
 If we shut it down, recommendations are not displayed.
 
-It may be useful to cache them and use the *last cached value as fallback* in the hystrix EIP.
+It may be useful to **cache recommendations** and use the *last cached value as fallback* in the hystrix EIP.
 
-Let's change the `direct:recommendationHystrix` route to include caching using *caffeine*:
+Let's **change** the `direct:recommendation` route to include caching using *caffeine*:
 
 ```java
-from("direct:recommendationHystrix")
+from("direct:recommendation")
         .hystrix()
-            .to("direct:recommendation")
+            .setHeader(Exchange.HTTP_METHOD, constant(HttpMethods.GET))
+            .to("undertow:http://{{recommendation.service}}/api/recommendations")
+            .unmarshal().json(JsonLibrary.Jackson, List.class)
             .setHeader(CaffeineConstants.ACTION, constant(CaffeineConstants.ACTION_PUT))
-            .to("caffeine-cache:global?key=recommendation")
+            .setHeader(CaffeineConstants.KEY, constant("recommendation"))
+            .to("caffeine-cache:global")
+        .endHystrix()
         .onFallback()
             .setHeader(CaffeineConstants.ACTION, constant(CaffeineConstants.ACTION_GET))
-            .to("caffeine-cache:global?key=recommendation")
+            .setHeader(CaffeineConstants.KEY, constant("recommendation"))
+            .to("caffeine-cache:global")
             .choice()
                 .when(header("CamelCaffeineActionHasResult").isNotEqualTo(true))
                     .setBody(constant(Collections.emptyList()))
@@ -117,12 +119,13 @@ from("direct:recommendationHystrix")
         .end();
 ```
 
-We've used caffeine, but Camel supports **tons of different cache providers**, local (like *Caffeine*, *Ehcache*, ...) or 
-also distributed (like *Infinispan*, *Redis*, ...)
+We've used caffeine, but Camel supports **tons of different cache providers, local** (like *Caffeine*, *Ehcache*, ...) or 
+also **distributed** (like *Infinispan*, *Redis*, *Hazelcast* ...).
 
-Now, you can run the service and if you shut the recommendation service down, the last recommendation is shown.
+Using a **distributed cache** with *camel-infinispan* (or *camel-redis*, *camel-hazelcast*, ...) we can also substantially reduce the amount of requests forwarded to 
+downstream services. When data rarely changes this is absolutely useful to improve system **scalability**.
 
-You can also:
-- Set a expiration time on the cached value
-- Cache per-user recommendations if your service support them (this is a simplified demo)
+Caches in Camel have a lot of options to configure, like *data expiration* and *invalidation*.  
 
+Now, you can run all services and refresh the UI. If you shut the recommendation service down, 
+the **last cached recommendation is shown** in the UI.
