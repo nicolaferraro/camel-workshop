@@ -30,7 +30,7 @@ They are needed for:
 ## Mix inventory data with recommendations
 
 Let's declare a route that, when called, will fetch data from the recommendation service.
-You should add it to the *gateway service*.
+You should add it to the *gateway service* (*inside the `configure()` method*).
 
 ```java
 from("direct:recommendation")
@@ -56,7 +56,9 @@ That method will set `recommended=true` on featured items.
 
 ## Check the new feature
 
-Stop the *gateway service* and start it again. **You should see some stars below the best item of the catalog**.
+We assume that all backend services are still running (start them if they are stopped).
+ 
+Stop the *gateway service* and start it again in order to apply changes. **If you look at the UI, you should see some stars below the best item of the catalog**.
 
 Nice, but now **if you stop the recommendation service, the ui wont display the items anymore**.
 
