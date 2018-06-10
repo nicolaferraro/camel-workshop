@@ -39,15 +39,22 @@ be used to test the full application;
 - Maven 3.5.x
 - Your favourite IDE
 - HTTPie (to test endpoints)
+- Minishift and Openshift client tools (optional)
 
 HTTPie can be [installed on Linux, OSX and Windows](https://httpie.org/doc#installation).
 
-**For Windows users:** Installation on Windows requires `pip` that is included in the [Python installer](https://www.python.org/downloads/windows/). 
+**For Windows users:** Installation of HTTPie on Windows requires `pip` that is included in the [Python installer](https://www.python.org/downloads/windows/). 
 Read [this thread](https://stackoverflow.com/questions/4750806/how-do-i-install-pip-on-windows) if you need to troubleshoot.
 Alternatively, you can use a graphical tool like [Postman](https://www.getpostman.com/) to test endpoints, but instructions
 on this tutorial are given for **HTTPie** only. 
 
+The **Minishift requirement is optional**. Minishift allows you to start full Openshift pseudo-cluster in your 
+development machine and run your service as containerized images. 
+You can [download the binary from the Minishift release page](https://github.com/minishift/minishift/releases/tag/v1.18.0).
 
+Refer to the ["quick start guide"](https://docs.openshift.org/latest/minishift/getting-started/index.html) to install Minishift on your laptop.
+[The section about the Openshift client binary](https://docs.openshift.org/latest/minishift/openshift/openshift-client-binary.html) explains also how to 
+include the `oc` binary into the path in order to interact with the cluster.
 
 ## Part 1: writing the services
 
@@ -80,3 +87,7 @@ on this tutorial are given for **HTTPie** only.
 ### 7. Adding Sagas
 
 [Let's see how to fix inconsistencies](/doc/saga.md).
+
+### 8. Running on Kubernetes and OpenShift (Optional)
+
+[Let's see how to run everything on Kubernetes and Openshift](/doc/openshift.md).

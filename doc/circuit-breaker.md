@@ -35,7 +35,7 @@ You should add it to the *gateway service* (*inside the `configure()` method*).
 ```java
 from("direct:recommendation")
         .setHeader(Exchange.HTTP_METHOD, constant(HttpMethods.GET))
-        .to("undertow:http://{{recommendation.service}}/api/recommendations")
+        .serviceCall("recommendation/api/recommendations")
         .unmarshal().json(JsonLibrary.Jackson, List.class);
 ```
 
@@ -44,7 +44,7 @@ We can now **replace** the `/items` endpoint with the following to include recom
 ```java
 rest().get("/items")
         .route()
-        .to("undertow:http://{{inventory.service}}/api/items")
+        .serviceCall("inventory/api/items")
         .unmarshal().json(JsonLibrary.Jackson, Catalog.class)
         .enrichWith("direct:recommendation")
             .body(Catalog.class, List.class, this::recommend)
@@ -74,7 +74,7 @@ Let's **rewrite** the `direct:recommendation` route to add the *Hystrix EIP*:
 from("direct:recommendation")
         .hystrix()
             .setHeader(Exchange.HTTP_METHOD, constant(HttpMethods.GET))
-            .to("undertow:http://{{recommendation.service}}/api/recommendations")
+            .serviceCall("recommendation/api/recommendations")
             .unmarshal().json(JsonLibrary.Jackson, List.class)
         .endHystrix()
         .onFallback()
@@ -102,7 +102,7 @@ Let's **change** the `direct:recommendation` route to include caching using *caf
 from("direct:recommendation")
         .hystrix()
             .setHeader(Exchange.HTTP_METHOD, constant(HttpMethods.GET))
-            .to("undertow:http://{{recommendation.service}}/api/recommendations")
+            .serviceCall("recommendation/api/recommendations")
             .unmarshal().json(JsonLibrary.Jackson, List.class)
             .setHeader(CaffeineConstants.ACTION, constant(CaffeineConstants.ACTION_PUT))
             .setHeader(CaffeineConstants.KEY, constant("recommendation"))

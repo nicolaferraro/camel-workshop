@@ -63,8 +63,8 @@ from("direct:cancelOrder")
         .unmarshal().json(JsonLibrary.Jackson, Order.class)
         .setHeader(Exchange.HTTP_METHOD, constant(HttpMethods.DELETE))
         .multicast().parallelProcessing()
-            .toD("undertow:http://{{credit.service}}/api/payments/${body.reference}")
-            .toD("undertow:http://{{inventory.service}}/api/purchases/${body.reference}");
+            .serviceCall("credit/api/payments/${body.reference}")
+            .serviceCall("inventory/api/purchases/${body.reference}");
 ```
 
 We'll cancel both payment and purchase **in parallel**.
@@ -90,7 +90,5 @@ the result. That is what we call **eventual consistency**.
 **Important Note**: The *"eventual"* word in *"eventual consistency"* does not mean that *"there's eventuality that the result will be consistent"*, 
 it means *"at one time in the future the result will be consistent for sure, but we it will not happen immediately in some cases (network partitions)"*.
 
- 
 
- 
 

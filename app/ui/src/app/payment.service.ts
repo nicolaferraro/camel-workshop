@@ -1,18 +1,18 @@
 import {Injectable} from '@angular/core';
 import {Observable} from "rxjs/internal/Observable";
 import {Payment} from "./datatypes";
-import {ApiService} from "./api.service";
 import {HttpClient} from "@angular/common/http";
+import {environment} from "../environments/environment";
 
 @Injectable({
   providedIn: 'root'
 })
 export class PaymentService {
 
-  constructor(private http: HttpClient, private api: ApiService) { }
+  constructor(private http: HttpClient) { }
 
   getPayments(): Observable<Payment[]> {
-    return this.http.get<Payment[]>(this.api.getApiPath() + "/payments");
+    return this.http.get<Payment[]>(environment.apiPath + "/payments");
   }
 
 }

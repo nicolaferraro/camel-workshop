@@ -76,6 +76,11 @@
 			<version>2.21.1</version>
 		</dependency>
 
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
@@ -96,6 +101,40 @@
 			</plugin>
 		</plugins>
 	</build>
+
+	<profiles>
+		<profile>
+			<id>openshift</id>
+
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>io.fabric8</groupId>
+						<artifactId>fabric8-maven-plugin</artifactId>
+						<version>3.5.39</version>
+						<executions>
+							<execution>
+								<goals>
+									<goal>resource</goal>
+									<goal>build</goal>
+								</goals>
+							</execution>
+						</executions>
+						<configuration>
+							<resources>
+								<env>
+									<INVENTORY_SERVICE>inventory:8081</INVENTORY_SERVICE>
+									<CREDIT_SERVICE>credit:8082</CREDIT_SERVICE>
+									<RECOMMENDATION_SERVICE>recommendation:8083</RECOMMENDATION_SERVICE>
+								</env>
+							</resources>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+
+		</profile>
+	</profiles>
 
 
 </project>

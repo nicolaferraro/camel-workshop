@@ -1,18 +1,18 @@
 import {Injectable} from '@angular/core';
 import {Observable} from "rxjs/internal/Observable";
 import {HttpClient} from "@angular/common/http";
-import {ApiService} from "./api.service";
 import {Catalog, Order, OrderItem} from "./datatypes";
+import {environment} from "../environments/environment";
 
 @Injectable({
   providedIn: 'root'
 })
 export class ItemService {
 
-  constructor(private http: HttpClient, private api: ApiService) { }
+  constructor(private http: HttpClient) { }
 
   getCatalog(): Observable<Catalog> {
-    return this.http.get<Catalog>(this.api.getApiPath() + "/items");
+    return this.http.get<Catalog>(environment.apiPath + "/items");
   }
 
   makeOrder(items: Map<string, number>): Observable<Object> {
@@ -31,7 +31,7 @@ export class ItemService {
       }
     });
 
-    return this.http.post(this.api.getApiPath() + "/orders", order);
+    return this.http.post(environment.apiPath + "/orders", order);
   }
 
 }

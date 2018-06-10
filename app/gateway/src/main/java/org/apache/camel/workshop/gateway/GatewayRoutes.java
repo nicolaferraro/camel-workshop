@@ -32,11 +32,11 @@ public class GatewayRoutes extends RouteBuilder {
 
         rest().get("/payments")
                 .route()
-                .to("undertow:http://{{credit.service}}/api/payments");
+                .serviceCall("credit/api/payments");
 
         rest().get("/purchases")
                 .route()
-                .to("undertow:http://{{inventory.service}}/api/purchases");
+                .serviceCall("inventory/api/purchases");
 
         /*
          * Items
@@ -44,7 +44,7 @@ public class GatewayRoutes extends RouteBuilder {
 
         rest().get("/items")
                 .route()
-                .to("undertow:http://{{inventory.service}}/api/items")
+                .serviceCall("inventory/api/items")
                 .unmarshal().json(JsonLibrary.Jackson, Catalog.class)
                 .enrichWith("direct:recommendation")
                     .body(Catalog.class, List.class, this::recommend)
@@ -57,7 +57,7 @@ public class GatewayRoutes extends RouteBuilder {
         from("direct:recommendation")
             .hystrix()
                 .setHeader(Exchange.HTTP_METHOD, constant(HttpMethods.GET))
-                .to("undertow:http://{{recommendation.service}}/api/recommendations")
+                .serviceCall("recommendation/api/recommendations")
                 .unmarshal().json(JsonLibrary.Jackson, List.class)
                 .setHeader(CaffeineConstants.ACTION, constant(CaffeineConstants.ACTION_PUT))
                 .setHeader(CaffeineConstants.KEY, constant("recommendation"))
@@ -96,14 +96,13 @@ public class GatewayRoutes extends RouteBuilder {
         from("direct:payOrder")
                 .setBody().body(Order.class, this::createPayment)
                 .marshal().json(JsonLibrary.Jackson)
-                .to("undertow:http://{{credit.service}}/api/payments");
+                .serviceCall("credit/api/payments");
 
 
         from("direct:purchaseOrderItems")
                 .setHeader("reference", simple("${body.reference}"))
                 .split().simple("${body.items}").parallelProcessing()
-                    .toD("undertow:http://{{inventory.service}}/api/purchases/${header.reference}/items/${body.id}?amount=${body.amount}")
-                .end();
+                    .serviceCall("inventory/api/purchases/${header.reference}/items/${body.id}?amount=${body.amount}");
 
 
         from("direct:cancelOrder")
@@ -111,8 +110,8 @@ public class GatewayRoutes extends RouteBuilder {
                 .unmarshal().json(JsonLibrary.Jackson, Order.class)
                 .setHeader(Exchange.HTTP_METHOD, constant(HttpMethods.DELETE))
                 .multicast().parallelProcessing()
-                    .toD("undertow:http://{{credit.service}}/api/payments/${body.reference}")
-                    .toD("undertow:http://{{inventory.service}}/api/purchases/${body.reference}");
+                    .serviceCall("credit/api/payments/${body.reference}")
+                    .serviceCall("inventory/api/purchases/${body.reference}");
 
 
     }

@@ -1,0 +1,70 @@
+---
+apiVersion: v1
+kind: List
+items:
+- apiVersion: v1
+  kind: Service
+  metadata:
+    labels:
+      app: ui
+      version: 0.0.1-SNAPSHOT
+      group: org.apache.camel.workshop
+    name: ui
+  spec:
+    ports:
+    - name: http
+      port: 8080
+      protocol: TCP
+      targetPort: 8080
+    selector:
+      app: ui
+      group: org.apache.camel.workshop
+- apiVersion: apps.openshift.io/v1
+  kind: DeploymentConfig
+  metadata:
+    labels:
+      app: ui
+      version: 0.0.1-SNAPSHOT
+      group: org.apache.camel.workshop
+    name: ui
+  spec:
+    replicas: 1
+    revisionHistoryLimit: 2
+    selector:
+      app: ui
+      group: org.apache.camel.workshop
+    template:
+      metadata:
+        labels:
+          app: ui
+          version: 0.0.1-SNAPSHOT
+          group: org.apache.camel.workshop
+      spec:
+        containers:
+        - env:
+          - name: KUBERNETES_NAMESPACE
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.namespace
+          image: nferraro/camel-workshop-ui:latest
+          imagePullPolicy: IfNotPresent
+          name: nginx
+          ports:
+          - containerPort: 8080
+            name: http
+            protocol: TCP
+          securityContext:
+            privileged: false
+- apiVersion: v1
+  kind: Route
+  metadata:
+    labels:
+      app: ui
+      expose: 'true'
+      group: org.apache.camel.workshop
+      version: 0.0.1-SNAPSHOT
+    name: ui
+  spec:
+    to:
+      kind: Service
+      name: ui

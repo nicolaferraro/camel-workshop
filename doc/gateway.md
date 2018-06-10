@@ -146,42 +146,127 @@ components that are able to expose REST (`servlet` and `undertow`, the last one 
 
 You should also configure the context path in the `src/main/resources/application.properties` file (server port will be the default: **8080**).
 
-Since the gateway will call the other miroservices, we configure here their endpoints.
 
 ```properties
 camel.component.servlet.mapping.context-path=/api/*
 #server.port=8080
-
-inventory.host=localhost
-inventory.port=8081
-inventory.service=${inventory.host}:${inventory.port}
-
-credit.host=localhost
-credit.port=8082
-credit.service=${credit.host}:${credit.port}
-
-recommendation.host=localhost
-recommendation.port=8083
-recommendation.service=${recommendation.host}:${recommendation.port}
 ```
 
-## Adding simple proxy endpoints
+## Adding a simple proxy endpoint
 
-Some of the endpoints exposed by the gateway are simple *proxy* endpoints that 
-forward requests to the other services. We can declare them easily (*inside the `configure()` method, right after `restConfiguration()` declaration*):
+Let's try to create a basic proxy endpoint towards the *payments* service.
+
+In the *configure()* method we can add the following rest endpoint (*inside the `configure()` method, right after `restConfiguration()` declaration*):
+
+```java
+rest().get("/payments")
+        .route()
+        .to("undertow:http://localhost:8082/api/payments");
+```
+
+This endpoint will simply receive HTTP requests on `/api/payments` on the current service 
+and forward them to `http://localhost:8082/api/payments` using the *undertow* component under the hood.
+
+You may try it and it should work. But we've **encoded the host name of the target service in the route**.
+We should try to do better than this.
+
+## Using property placeholders
+
+A better idea is to write hostnames in the `src/main/resources/application.properties` file.
+The content of that file is **not carved in stone**. There are several [options that you can use in Spring-Boot to
+override](https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-external-config.html) that properties at runtime.  
+
+Let's append the following configuration to our `src/main/resources/application.properties` file:               
+                 
+```properties
+# after path and port configuration
+
+inventory.service=localhost:8081
+credit.service=localhost:8082
+recommendation.service=localhost:8083
+```
+
+Now service hosts and ports have been added to the configuration.
+
+Using configuration values in camel is really easy. Let's **change** the definition
+of the `/payments` endpoint into the following:
 
 ```java
 rest().get("/payments")
         .route()
         .to("undertow:http://{{credit.service}}/api/payments");
+``` 
 
+The syntax `{{name-of-the-property}}` can be used almost everywhere in Camel to get any value from
+the Spring-Boot configuration.
+
+Now the external service definition looks good. But **we can do better!**
+
+## Using the ServiceCall EIP
+
+Microservices are often deployed into cloud environments where service endpoints are not static but 
+**highly dynamic**. Services may be created and destroyed with a high rate, so it's really common to use 
+a *"service discovery"* mechanism in the cloud. 
+
+Camel has **built-in support for service discovery**.
+Camel applications can discover services using a wide range of providers, like 
+*Consul, DNS, Etcd, Zookeeper or also Kubernetes and Openshift (from Camel 2.21.2)*. 
+
+ServiceCall EIP allows you also to set fixed addresses for running the application 
+outside a cloud environment, e.g. for local development. 
+We'll use this strategy for now, but with the option to **change it in the future by just changing the configuration**. 
+
+Let's configure the `src/main/resources/application.properties` file to add the ServiceCall configuration.
+
+Just, **replace** the content of the `src/main/resources/application.properties` file with the following: 
+
+```properties
+camel.component.servlet.mapping.context-path=/api/*
+#server.port=8080
+
+# ServiceCall configuration
+camel.cloud.service-call.component=undertow
+
+inventory.service=localhost:8081
+credit.service=localhost:8082
+recommendation.service=localhost:8083
+
+camel.cloud.service-discovery.services[inventory]=${inventory.service}
+camel.cloud.service-discovery.services[credit]=${credit.service}
+camel.cloud.service-discovery.services[recommendation]=${recommendation.service}
+```
+
+We have defined 3 services named *"inventory", "credit" and "recommendation"* and 
+defined that we want to contact them using the *"undertow"* (http) component.
+
+Addresses are written in the file, but we have the possibility to leverage service discovery later.
+
+Now, let's **rewrite again** the `/payments` endpoint to user the *ServiceCall EIP*.
+
+```java
+rest().get("/payments")
+        .route()
+        .serviceCall("credit/api/payments");
+```
+
+Easy and simple! You're telling Camel that you want to call the *"credit"* service on path `/api/payments`,
+everything that is needed to lookup information about the *"credit"* service will be done by Camel.
+
+## Write all other proxy endpoints
+
+We have defined addresses of all services in the `application.properties` file, we can now write the remaining routes
+for the *proxy* endpoints.
+
+Add the following endpoints (*inside the `configure()` method, right after the last REST endpoint declaration*):
+
+```java
 rest().get("/purchases")
         .route()
-        .to("undertow:http://{{inventory.service}}/api/purchases");
+        .serviceCall("inventory/api/purchases");
 
 rest().get("/items")
         .route()
-        .to("undertow:http://{{inventory.service}}/api/items");
+        .serviceCall("inventory/api/items");
 ```
 
 For the moment, Camel does not apply any transformation to these routes.
@@ -212,18 +297,21 @@ rest().post("/orders")
 from("direct:payOrder")
         .setBody().body(Order.class, this::createPayment)
         .marshal().json(JsonLibrary.Jackson)
-        .to("undertow:http://{{credit.service}}/api/payments");
+        .serviceCall("credit/api/payments");
 
 // Sub-route for inventory
 from("direct:purchaseOrderItems")
         .setHeader("reference", simple("${body.reference}"))
         .split().simple("${body.items}").parallelProcessing()
-            .toD("undertow:http://{{inventory.service}}/api/purchases/${header.reference}/items/${body.id}?amount=${body.amount}");
+            .serviceCall("inventory/api/purchases/${header.reference}/items/${body.id}?amount=${body.amount}");
 ```
 
 We've written 2 sub-routes for making a payment from a order and purchasing all items contained in the order.
 
 Note that **all endpoints are invoked in parallel**, also the calls for different items of the inventory (simulates the case where items are present in different inventories).
+
+**Note**: we have used the simple language ("*${header.reference}*") inside the URI definition of the service call.
+This works because the ServiceCall EIP accepts dynamic URIs (it acts [like a like a ".toD()" endpoint](http://camel.apache.org/how-to-use-a-dynamic-uri-in-to.html)).    
 
 ## Start the service
 
