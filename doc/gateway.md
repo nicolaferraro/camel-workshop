@@ -210,7 +210,7 @@ a *"service discovery"* mechanism in the cloud.
 
 Camel has **built-in support for service discovery**.
 Camel applications can discover services using a wide range of providers, like 
-*Consul, DNS, Etcd, Zookeeper or also Kubernetes and Openshift (from Camel 2.21.2)*. 
+*Consul, DNS, Etcd, Zookeeper or also Kubernetes and Openshift (from Camel 2.22.0)*. 
 
 ServiceCall EIP allows you also to set fixed addresses for running the application 
 outside a cloud environment, e.g. for local development. 

@@ -6,7 +6,11 @@ complex system composed of multiple microservices and coordinating actions
 using the *Saga* pattern to obtain consistency.
 
 All artifacts produced in the workshop are present under the /[app](/app) directory, but we suggest 
-to follow the step-by-step guide.   
+to follow the step-by-step guide.
+
+## Slides
+
+The slides for this workshop are [located here](/doc/slides.pdf).
 
 ## Final Result
 

@@ -55,6 +55,7 @@ public static class Routes extends RouteBuilder {
 }
 ```
 
+Add the necessary imports, your IDE should suggest them.
 Now from the root of the project (where `pom.xml` is located) run the application with:
  
 ```
