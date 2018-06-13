@@ -14,6 +14,8 @@ The slides for this workshop are [located here](/doc/slides.pdf).
 
 ## Final Result
 
+You can check the [Youtube video](https://youtu.be/hBbGXnb0N7A) to see all services in action.
+
 The final result of the workshop is a "Plush Shop Demo".
 
 ![Plush Shop Catalog](/doc/catalog.png "Plush Shop Catalog")
