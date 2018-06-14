@@ -200,11 +200,21 @@ http GET :8082/api/payments
 echo '{"reference": "ref1", "user": "nicola", "amount": -2}' | http POST :8082/api/payments
 ```
 
+If you want to use CURL instead of HTTPie:
+```
+curl -X POST -d '{"reference": "ref1", "user": "nicola", "amount": -2}' -H "Content-Type: application/json" -w "\n" http://localhost:8082/api/payments
+```
+
 You should see a error coming back from the service.
 
 **Create a valid payment**
 ```
 echo '{"reference": "ref1", "user": "nicola", "amount": 1}' | http POST :8082/api/payments
+```
+
+If using CURL:
+```
+curl -X POST -d '{"reference": "ref2", "user": "nicola", "amount": 1}' -H "Content-Type: application/json" -w "\n" http://localhost:8082/api/payments
 ```
 
 **Delete a payment**

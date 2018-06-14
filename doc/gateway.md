@@ -350,4 +350,9 @@ http GET :8080/api/payments
 echo '{"reference": "order-1", "user": "cippalippa", "items": [{"id": "i1", "amount": 3}], "price": 3}' | http POST :8080/api/orders
 ```
 
+If using CURL:
+```
+curl -X POST -d '{"reference": "order-2", "user": "cippalippa", "items": [{"id": "i1", "amount": 3}], "price": 3}' -H "Content-Type: application/json" -w "\n" http://localhost:8080/api/orders
+```
+
 After doing the order, check the catalog, purchases and payments again. 
