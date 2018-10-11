@@ -8,7 +8,7 @@ It provides a unique access point to all other microservices, with a consistent 
 We'll create a *Camel* on *spring-boot* project:
 
 - Go to [https://start.spring.io](https://start.spring.io)
-- Select Spring-Boot version *1.5.13* (Camel *2.22.0*, released mid June 2018, supports spring-boot *2.x*)
+- Select Spring-Boot version *2.0.5*
 - Add to the list of dependencies: `Apache Camel`, `Web`, `DevTools` (for auto-reload)  
 - Set groupId to `org.apache.camel.workshop` and project name to `gateway`
 - Download the project archive and extract
@@ -63,22 +63,22 @@ Now, let's add the Camel component that we need in the `pom.xml` file.
 <dependency>
     <groupId>org.apache.camel</groupId>
     <artifactId>camel-servlet-starter</artifactId>
-    <version>2.21.1</version>
+    <version>2.22.1</version>
 </dependency>
 <dependency>
     <groupId>org.apache.camel</groupId>
     <artifactId>camel-undertow-starter</artifactId>
-    <version>2.21.1</version>
+    <version>2.22.1</version>
 </dependency>
 <dependency>
     <groupId>org.apache.camel</groupId>
     <artifactId>camel-jackson-starter</artifactId>
-    <version>2.21.1</version>
+    <version>2.22.1</version>
 </dependency>
 <dependency>
     <groupId>org.apache.camel</groupId>
     <artifactId>camel-bean-validator-starter</artifactId>
-    <version>2.21.1</version>
+    <version>2.22.1</version>
 </dependency>
 ```  
 

@@ -13,12 +13,12 @@ We need the following dependencies in the gateway.
 <dependency>
     <groupId>org.apache.camel</groupId>
     <artifactId>camel-hystrix-starter</artifactId>
-    <version>2.21.1</version>
+    <version>2.22.1</version>
 </dependency>
 <dependency>
     <groupId>org.apache.camel</groupId>
     <artifactId>camel-caffeine-starter</artifactId>
-    <version>2.21.1</version>
+    <version>2.22.1</version>
 </dependency>
 ```
 
