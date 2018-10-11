@@ -11,16 +11,16 @@ Normally, dependencies on a `pom.xml` file are declared as follows:
 <dependency>
     <groupId>org.apache.camel</groupId>
     <artifactId>camel-servlet-starter</artifactId>
-    <version>2.21.1</version>
+    <version>2.22.1</version>
 </dependency>
 <dependency>
     <groupId>org.apache.camel</groupId>
     <artifactId>camel-jackson-starter</artifactId>
-    <version>2.21.1</version>
+    <version>2.22.1</version>
 </dependency>
 ```
 
-When using the BOM, it's not necessary to specify the version (*2.21.1*) for each dependency and 
+When using the BOM, it's not necessary to specify the version (*2.22.1*) for each dependency and 
 also some IDEs will provide autocompletion when adding a new Camel component to the project.
 
 The BOM can be imported using the following declaration:
@@ -34,7 +34,7 @@ The BOM can be imported using the following declaration:
         <dependency>
             <groupId>org.apache.camel</groupId>
             <artifactId>camel-bom</artifactId>
-            <version>2.21.1</version>
+            <version>2.22.1</version>
             <type>pom</type>
             <scope>import</scope>
         </dependency>
